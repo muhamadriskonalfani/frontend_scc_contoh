@@ -50,7 +50,7 @@
         padding: 12px;
         border-radius: 8px;
         border: none;
-        background: var(--fresh-blue);
+        background: var(--fresh-orange);
         color: #fff;
         font-size: 15px;
         font-weight: 500;
@@ -73,7 +73,7 @@
 @section('header')
 <div class="auth-header">
     <div class="d-flex gap-2 align-items-center">
-        <a href="/" class="text-decoration-none" style="color: var(--fresh-blue)">
+        <a href="/" class="text-decoration-none" style="color: var(--fresh-orange)">
             <i data-feather="arrow-left"></i>
         </a>
         <span class="title">Login</span>

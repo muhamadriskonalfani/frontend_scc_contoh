@@ -4,149 +4,196 @@
 
 @section('styles')
 <style>
-    .orange-header {
+    body {
+        font-size: 14px;
+        background: #f6f7fb;
+    }
+
+    /* TOP BAR */
+    .topbar {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
-        padding: 10px;
+        padding: 14px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         background: var(--white-box);
-        background-image: url("{{ asset('assets/img/Animated Shape.svg') }}");
-        background-repeat: repeat;
-        background-size: 350px;
-        border-bottom: 1px solid var(--border);
         z-index: 999;
     }
 
-    .search-box input {
-        background: var(--white-box);
-        padding-left: 40px;
-        border-radius: 10px;
-        font-size: 14px;
+    .topbar .title-text {
+        color: var(--fresh-orange);
+        font-weight: 700;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .topbar a {
+        color: var(--fresh-orange);
     }
 
     .content-offset {
-        padding-top: 0;
+        padding-top: 10px;
+        padding-bottom: 20px;
     }
 
-    /* FEATURES */
-    .menu-item {
-        min-width: 67px;
-        width: 67px;
-        max-height: 80px;
-        text-align: center;
-        flex-shrink: 0;
+    /* CARD */
+    .card-box {
+        background: #fff;
+        border-radius: 5px;
+        padding: 16px;
+        margin-bottom: 18px;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.05);
     }
 
-    .menu-item img {
-        width: 35px;
-        margin: 4px 0;
-        /* border: 1px solid var(--border);
-        border-radius: 2px; */
-    }
-
-    .menu-item-title {
-        font-size: 10px;
-        line-height: 1.2;
-    }
-
-    /* FLASH SALE */
-    .horizontal-scroll {
-        display: flex;
-        gap: 10px;
-        overflow-x: auto;
-    }
-
-    .horizontal-scroll::-webkit-scrollbar {
-        display: none;
-    }
-
-    .product-card {
-        width: 120px;
-        background: var(--white-box);
-        border-radius: 2px;
-        overflow: hidden;
-        border: 1px solid var(--border);
-        flex-shrink: 0;
-    }
-
-    .product-name {
-        font-size: 12px;
-    }
-
-    .product-price {
+    .card-box h6 {
         color: var(--fresh-orange);
-        font-weight: 700;
+    }
+
+    /* MENU GRID */
+    .menu-grid {
+        display: flex;  
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        text-align: center;
+        padding: 14px 8px;
+        height: 70px; 
+        border-radius: 12px;
+        transition: all .2s;
+    }
+
+    .menu-grid:hover {
+        background: var(--fresh-orange);
+        color: #fff;
+    }
+
+    .menu-grid i {
+        width: 26px;
+        height: 26px;
+        margin-bottom: 6px;
+        display: block; 
+        color: var(--fresh-orange);
+    }
+
+    .menu-grid span {
+        display: block;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    /* USER INFO */
+    .user-info div {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 0;
+        border-bottom: 1px dashed #eee;
         font-size: 13px;
     }
 
-    /* CATEGORY */
-    .category-item {
-        min-width: 107px;
-        text-align: center;
-        margin-bottom: 15px;
-        flex-shrink: 0;
+    .user-info div:last-child {
+        border-bottom: none;
     }
 
-    .category-item img {
-        width: 107px;
-        height: 107px;
-        object-fit: contain;
-    }
-
-    .category-item div {
-        font-size: 11px;
-        margin-top: 4px;
+    /* LOGOUT */
+    .btn-logout {
+        background: var(--fresh-orange);
+        color: #fff;
+        border-radius: 12px;
+        padding: 12px;
+        font-weight: 500;
+        border: none;
     }
 </style>
 @endsection
 
 @section('header')
-<div class="orange-header">
-    <div class="d-flex align-items-center">
-        <div class="position-relative grow">
-            <i data-feather="search" class="position-absolute ms-2"
-                style="top:50%;transform:translateY(-50%);color:var(--fresh-orange);">
-            </i>
-            <input type="text" class="form-control ps-5" placeholder="Cari barang murah...">
-        </div>
+<div class="topbar">
+    <div class="title-text">
+        <span>🔥</span>
+        <span>BERANDA</span>
+    </div>
 
-        <a href="" class="ms-3" style="color: var(--fresh-orange);">
-            <i data-feather="shopping-cart"></i>
-        </a>
-        <a href="" class="ms-3" style="color: var(--fresh-orange);">
-            <i data-feather="message-circle"></i>
-        </a>
+    <div class="d-flex gap-3 align-items-center">
+        <a href="#"><i data-feather="search"></i></a>
+        <a href="#"><i data-feather="bell"></i></a>
     </div>
 </div>
 @endsection
 
 @section('content')
-<div class="content-offset">
+<div class="content-offset container">
 
-    <div class="mb-3" style="font-size: 12px;">
-        {{ session('auth.token') }}
+    {{-- MENU --}}
+    <div class="card-box">
+        <h6 class="mb-3 fw-bold">Menu</h6>
+
+        <div class="row g-3">
+            <div class="col-3">
+                <a href="#" class="menu-grid text-decoration-none text-dark">
+                    <i data-feather="activity"></i>
+                    <span>Tracer</span>
+                </a>
+            </div>
+            <div class="col-3">
+                <a href="#" class="menu-grid text-decoration-none text-dark">
+                    <i data-feather="briefcase"></i>
+                    <span>Karir</span>
+                </a>
+            </div>
+            <div class="col-3">
+                <a href="#" class="menu-grid text-decoration-none text-dark">
+                    <i data-feather="book-open"></i>
+                    <span>Kampus</span>
+                </a>
+            </div>
+            <div class="col-3">
+                <a href="#" class="menu-grid text-decoration-none text-dark">
+                    <i data-feather="user"></i>
+                    <span>Profil</span>
+                </a>
+            </div>
+        </div>
     </div>
 
-    <div class="mb-3">
-        <ul>
-            <li>{{ session('auth.user.id') }}</li>
-            <li>{{ session('auth.user.name') }}</li>
-            <li>{{ session('auth.user.email') }}</li>
-            <li>{{ session('auth.user.role') }}</li>
-            <li>{{ session('auth.user.status') }}</li>
-        </ul>
+    {{-- USER INFO --}}
+    <div class="card-box">
+        <h6 class="mb-3 fw-bold">Informasi Akun</h6>
+
+        <div class="user-info">
+            <div>
+                <span>Nama</span>
+                <strong>{{ session('auth.user.name') }}</strong>
+            </div>
+            <div>
+                <span>Email</span>
+                <strong>{{ session('auth.user.email') }}</strong>
+            </div>
+            <div>
+                <span>Role</span>
+                <strong>{{ session('auth.user.role') }}</strong>
+            </div>
+            <div>
+                <span>Status</span>
+                <strong>{{ session('auth.user.status') }}</strong>
+            </div>
+        </div>
     </div>
 
-    <div class="mb-3">
-        <form action="{{ route('logout') }}" method="POST"
-            onsubmit="return confirm('Apakah Anda yakin ingin logout?')">
+    {{-- LOGOUT --}}
+    <div class="card-box">
+        <form action="{{ route('auth.logout') }}" method="POST"
+              onsubmit="return confirm('Apakah Anda yakin ingin logout?')">
             @csrf
-            <button type="submit" class="btn btn-light w-100" style="background: var(--fresh-blue);">
+            <button type="submit" class="btn btn-logout w-100">
                 Logout
             </button>
         </form>
-
     </div>
 
 </div>
