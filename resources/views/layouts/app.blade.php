@@ -14,6 +14,7 @@
     <style>
         :root {
             --fresh-orange: #ff5722;
+            --fresh-blue: #2243ff;
             --white-body: #f5f5f5;
             --white-box: #fff;
             --red-notif: #f00;

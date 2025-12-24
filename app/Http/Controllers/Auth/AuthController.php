@@ -98,4 +98,27 @@ class AuthController extends Controller
 
         return redirect()->route('dashboard');
     }
+
+    public function logout()
+    {
+        $token = session('auth.token');
+
+        try {
+            if ($token) {
+                Http::withToken($token)
+                    ->acceptJson()
+                    ->post(config('services.api.base_url') . '/mobile/logout');
+            }
+        } catch (\Exception $e) {
+            // Abaikan error API logout
+            // Yang penting session frontend dibersihkan
+        }
+
+        // Hapus session frontend
+        session()->forget('auth');
+
+        return redirect()
+            ->route('index')
+            ->with('success', 'Berhasil logout.');
+    }
 }

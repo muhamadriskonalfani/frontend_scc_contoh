@@ -16,6 +16,15 @@ Route::prefix('auth')->name('auth.')->group(function () {
         Route::get('/register-meta', [AuthController::class, 'registerMeta'])->name('register_meta');
         Route::post('/register', [AuthController::class, 'register'])->name('register');
     });
+
+    // Authenticated users only
+    Route::middleware('frontend.auth')->group(function () {
+        Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    });
 });
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::middleware('frontend.auth')->group(function () {
+    // Home / Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+});

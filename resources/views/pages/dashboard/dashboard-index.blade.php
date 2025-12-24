@@ -124,7 +124,7 @@
 @section('content')
 <div class="content-offset">
 
-    <div class="mb-3">
+    <div class="mb-3" style="font-size: 12px;">
         {{ session('auth.token') }}
     </div>
 
@@ -136,6 +136,17 @@
             <li>{{ session('auth.user.role') }}</li>
             <li>{{ session('auth.user.status') }}</li>
         </ul>
+    </div>
+
+    <div class="mb-3">
+        <form action="{{ route('logout') }}" method="POST"
+            onsubmit="return confirm('Apakah Anda yakin ingin logout?')">
+            @csrf
+            <button type="submit" class="btn btn-light w-100" style="background: var(--fresh-blue);">
+                Logout
+            </button>
+        </form>
+
     </div>
 
 </div>
