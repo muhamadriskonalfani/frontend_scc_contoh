@@ -98,37 +98,69 @@
 
     {{-- USER INFO --}}
     <div class="card-box">
-        <h6 class="mb-3 fw-bold">Informasi Akun</h6>
+        <h6 class="mb-3 fw-bold">Tracer Study Anda</h6>
 
         <div class="user-info">
             <div>
-                <span>Nama</span>
-                <strong>{{ session('auth.user.name') }}</strong>
+                <span>User ID</span>
+                <strong>{{ data_get($tracerStudy, 'user_id', '-') }}</strong>
             </div>
             <div>
-                <span>Email</span>
-                <strong>{{ session('auth.user.email') }}</strong>
+                <span>Nama Lengkap</span>
+                <strong>{{ data_get($tracerStudy, 'full_name', '-') }}</strong>
             </div>
             <div>
-                <span>Role</span>
-                <strong>{{ session('auth.user.role') }}</strong>
+                <span>Nomor Induk Mahasiswa</span>
+                <strong>{{ data_get($tracerStudy, 'student_id_number', '-') }}</strong>
             </div>
             <div>
-                <span>Status</span>
-                <strong>{{ session('auth.user.status') }}</strong>
+                <span>Fakultas</span>
+                <strong>{{ data_get($tracerStudy, 'faculty.name', '-') }}</strong>
+            </div>
+            <div>
+                <span>Program Studi</span>
+                <strong>{{ data_get($tracerStudy, 'study_program.name', '-') }}</strong>
+            </div>
+            <div>
+                <span>Tahun Masuk</span>
+                <strong>{{ data_get($tracerStudy, 'entry_year', '-') }}</strong>
+            </div>
+            <div>
+                <span>Tahun Lulus</span>
+                <strong>{{ data_get($tracerStudy, 'graduation_year', '-') }}</strong>
+            </div>
+            <div>
+                <span>Domisili</span>
+                <strong>{{ data_get($tracerStudy, 'domicile', '-') }}</strong>
+            </div>
+            <div>
+                <span>Nomor WhatsApp</span>
+                <strong>{{ data_get($tracerStudy, 'whatsapp_number', '-') }}</strong>
+            </div>
+            <div>
+                <span>Tempat Bekerja</span>
+                <strong>{{ data_get($tracerStudy, 'current_workplace', '-') }}</strong>
+            </div>
+            <div>
+                <span>Lama Bekerja</span>
+                <strong>{{ data_get($tracerStudy, 'current_job_duration_months', '-') }}</strong>
+            </div>
+            <div>
+                <span>Skala Perusahaan</span>
+                <strong>{{ data_get($tracerStudy, 'company_scale', '-') }}</strong>
+            </div>
+            <div>
+                <span>Jabatan</span>
+                <strong>{{ data_get($tracerStudy, 'job_title', '-') }}</strong>
             </div>
         </div>
     </div>
 
     {{-- LOGOUT --}}
     <div class="card-box">
-        <form action="{{ route('auth.logout') }}" method="POST"
-              onsubmit="return confirm('Apakah Anda yakin ingin logout?')">
-            @csrf
-            <button type="submit" class="btn btn-logout w-100">
-                Logout
-            </button>
-        </form>
+        <a href="{{ route('tracer_study.update') }}" class="btn btn-logout w-100">
+            Lengkapi Data
+        </a>
     </div>
 
 </div>

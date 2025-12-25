@@ -36,6 +36,7 @@ Route::middleware('frontend.auth')->group(function () {
     Route::prefix('tracer-study')->name('tracer_study.')->group(function () {
         Route::get('/', [TracerStudyController::class, 'index'])->name('index');
         Route::get('/update', [TracerStudyController::class, 'update'])->name('update');
+        Route::post('/save-update', [TracerStudyController::class, 'saveUpdate'])->name('save_update');
     });
 
     // Profile
