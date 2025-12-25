@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Beranda')
+@section('title', 'Update Info Magang')
 
 @section('styles')
 <style>
@@ -54,39 +54,6 @@
         color: var(--fresh-orange);
     }
 
-    /* MENU GRID */
-    .menu-grid {
-        display: flex;  
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-
-        text-align: center;
-        padding: 14px 8px;
-        height: 70px; 
-        border-radius: 12px;
-        transition: all .2s;
-    }
-
-    .menu-grid:hover {
-        background: var(--fresh-orange);
-        color: #fff;
-    }
-
-    .menu-grid i {
-        width: 26px;
-        height: 26px;
-        margin-bottom: 6px;
-        display: block; 
-        color: var(--fresh-orange);
-    }
-
-    .menu-grid span {
-        display: block;
-        font-size: 12px;
-        font-weight: 500;
-    }
-
     /* USER INFO */
     .user-info div {
         display: flex;
@@ -116,7 +83,7 @@
 <div class="topbar">
     <div class="title-text">
         <span>🔥</span>
-        <span>BERANDA</span>
+        <span>UPDATE INFO MAGANG</span>
     </div>
 
     <div class="d-flex gap-3 align-items-center">
@@ -128,44 +95,6 @@
 
 @section('content')
 <div class="content-offset container">
-
-    {{-- MENU --}}
-    <div class="card-box">
-        <h6 class="mb-3 fw-bold">Menu</h6>
-
-        <div class="row g-3">
-            <div class="col-4">
-                <a href="{{ route('tracer_study.index') }}" class="menu-grid text-decoration-none text-dark">
-                    <i data-feather="activity"></i>
-                    <span>Tracer</span>
-                </a>
-            </div>
-            <div class="col-4">
-                <a href="{{ route('job_vacancy.index') }}" class="menu-grid text-decoration-none text-dark">
-                    <i data-feather="briefcase"></i>
-                    <span>Loker</span>
-                </a>
-            </div>
-            <div class="col-4">
-                <a href="{{ route('apprenticeship.index') }}" class="menu-grid text-decoration-none text-dark">
-                    <i data-feather="briefcase"></i>
-                    <span>Magang</span>
-                </a>
-            </div>
-            <div class="col-4">
-                <a href="{{ route('campus.index') }}" class="menu-grid text-decoration-none text-dark">
-                    <i data-feather="book-open"></i>
-                    <span>Kampus</span>
-                </a>
-            </div>
-            <div class="col-4">
-                <a href="{{ route('profile.index') }}" class="menu-grid text-decoration-none text-dark">
-                    <i data-feather="user"></i>
-                    <span>Profil</span>
-                </a>
-            </div>
-        </div>
-    </div>
 
     {{-- USER INFO --}}
     <div class="card-box">
