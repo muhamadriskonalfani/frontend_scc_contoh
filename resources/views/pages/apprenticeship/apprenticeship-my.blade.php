@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Info Magang')
+@section('title', 'Magang Saya')
 
 @section('styles')
 <style>
@@ -24,7 +24,7 @@
     }
 
     .topbar .title-text {
-        color: var(--fresh-orange);
+        color: var(--fresh-blue);
         font-weight: 700;
         font-size: 18px;
         display: flex;
@@ -33,7 +33,7 @@
     }
 
     .topbar a {
-        color: var(--fresh-orange);
+        color: var(--fresh-blue);
     }
 
     .content-offset {
@@ -49,6 +49,7 @@
         box-shadow: 0 6px 16px rgba(0,0,0,0.05);
         height: 100%;
         transition: all .2s;
+        position: relative;
     }
 
     .apprenticeship-card:hover {
@@ -69,7 +70,7 @@
     .apprenticeship-title {
         font-size: 14px;
         font-weight: 700;
-        color: var(--fresh-orange);
+        color: var(--fresh-blue);
         margin-bottom: 4px;
     }
 
@@ -90,19 +91,37 @@
         color: #999;
         margin-top: 8px;
     }
+
+    /* STATUS BADGE */
+    .status-badge {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        padding: 4px 8px;
+        font-size: 10px;
+        border-radius: 12px;
+        color: #fff;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+
+    .status-pending { background: #f0ad4e; }
+    .status-approved { background: #28a745; }
+    .status-rejected { background: #dc3545; }
+    .status-ended { background: #6c757d; }
 </style>
 @endsection
 
 @section('header')
 <div class="topbar">
     <div class="title-text">
-        <span>💼</span>
-        <span>INFO MAGANG</span>
+        <span>📋</span>
+        <span>MAGANG SAYA</span>
     </div>
 
     <div class="d-flex gap-3 align-items-center">
+        <a href="{{ route('apprenticeship.create') }}"><i data-feather="plus"></i></a>
         <a href="#"><i data-feather="search"></i></a>
-        <a href="#"><i data-feather="briefcase"></i></a>
     </div>
 </div>
 @endsection
@@ -118,6 +137,11 @@
                    class="text-decoration-none text-dark">
 
                     <div class="apprenticeship-card">
+
+                        {{-- STATUS --}}
+                        <div class="status-badge status-{{ $item['status'] }}">
+                            {{ $item['status'] }}
+                        </div>
 
                         {{-- IMAGE --}}
                         @if (!empty($item['image']))
@@ -144,6 +168,7 @@
                             </div>
 
                             <div class="apprenticeship-date">
+                                Dibuat:
                                 {{ \Carbon\Carbon::parse($item['created_at'])->translatedFormat('d M Y') }}
                             </div>
                         </div>
@@ -153,7 +178,7 @@
             </div>
         @empty
             <div class="col-12 text-center text-muted mt-4">
-                Belum ada informasi magang.
+                Anda belum memiliki informasi magang.
             </div>
         @endforelse
 

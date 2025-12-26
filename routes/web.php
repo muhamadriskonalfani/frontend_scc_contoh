@@ -63,8 +63,19 @@ Route::middleware('frontend.auth')->group(function () {
     
     // Apprenticeship
     Route::prefix('apprenticeship')->name('apprenticeship.')->group(function () {
+        // Student & Alumni
         Route::get('/', [ApprenticeshipController::class, 'index'])->name('index');
-        Route::get('/create', [ApprenticeshipController::class, 'create'])->name('create');
-        Route::get('/update', [ApprenticeshipController::class, 'update'])->name('update');
+
+        // Alumni only
+        Route::middleware('role:alumni')->group(function () {
+            Route::get('/my/list', [ApprenticeshipController::class, 'myApprenticeships'])->name('my');
+            Route::get('/create', [ApprenticeshipController::class, 'create'])->name('create');
+            Route::post('/', [ApprenticeshipController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [ApprenticeshipController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [ApprenticeshipController::class, 'update'])->name('update');
+        });
+
+        // Taruh Paling Bawah
+        Route::get('/{id}', [ApprenticeshipController::class, 'show'])->name('show');
     });
 });
