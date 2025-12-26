@@ -37,6 +37,7 @@ return [
 
     'api' => [
         'base_url' => env('VITE_API_BASE_URL'),
+        'domain_url' => env('VITE_API_DOMAIN_URL'),
     ],
 
 ];

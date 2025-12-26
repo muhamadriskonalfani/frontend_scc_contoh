@@ -72,27 +72,27 @@
         @else
             <div class="bottom-nav p-0">
 
-                <a href="#" class="text-center">
+                <a href="{{ route('dashboard') }}" class="text-center {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                     <i data-feather="home"></i>
                     <div>Beranda</div>
                 </a>
 
-                <a href="#" class="text-center">
-                    <i data-feather="trending-up"></i>
-                    <div>Trending</div>
+                <a href="{{ route('tracer_study.index') }}" class="text-center {{ request()->routeIs('tracer_study.index') ? 'active' : '' }}">
+                    <i data-feather="activity"></i>
+                    <div>Tracer</div>
                 </a>
 
-                <a href="#" class="text-center">
-                    <i data-feather="shopping-bag"></i>
-                    <div>Market</div>
+                <a href="{{ route('job_vacancy.index') }}" class="text-center {{ request()->routeIs('home') ? 'job_vacancy.index' : '' }}">
+                    <i data-feather="briefcase"></i>
+                    <div>Career</div>
                 </a>
 
-                <a href="#" class="text-center">
-                    <i data-feather="bell"></i>
-                    <div>Notif</div>
+                <a href="{{ route('campus.index') }}" class="text-center {{ request()->routeIs('campus.index') ? 'active' : '' }}">
+                    <i data-feather="book-open"></i>
+                    <div>Kampus</div>
                 </a>
 
-                <a href="#" class="text-center">
+                <a href="{{ route('profile.index') }}" class="text-center {{ request()->routeIs('profile.index') ? 'active' : '' }}">
                     <i data-feather="user"></i>
                     <div>Akun</div>
                 </a>

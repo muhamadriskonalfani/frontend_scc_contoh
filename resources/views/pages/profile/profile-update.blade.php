@@ -76,6 +76,63 @@
         font-weight: 500;
         border: none;
     }
+
+    .profile-form-card {
+        background: var(--white-box);
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 14px;
+    }
+
+    .form-group label {
+        font-size: 12px;
+        font-weight: 500;
+        color: #666;
+        margin-bottom: 4px;
+        display: block;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    textarea {
+        resize: none;
+    }
+
+    .btn-orange {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: none;
+        background: var(--fresh-orange);
+        color: #fff;
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+    .preview-img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 8px;
+        border: 1px solid var(--border);
+    }
+
+    .file-info {
+        font-size: 12px;
+        color: #777;
+    }
 </style>
 @endsection
 
@@ -94,42 +151,106 @@
 @endsection
 
 @section('content')
-<div class="content-offset container">
+<div class="content-offset">
 
-    {{-- USER INFO --}}
-    <div class="card-box">
-        <h6 class="mb-3 fw-bold">Informasi Akun</h6>
+    {{-- ALERT --}}
+    @if (session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
 
-        <div class="user-info">
-            <div>
-                <span>Nama</span>
-                <strong>{{ session('auth.user.name') }}</strong>
-            </div>
-            <div>
-                <span>Email</span>
-                <strong>{{ session('auth.user.email') }}</strong>
-            </div>
-            <div>
-                <span>Role</span>
-                <strong>{{ session('auth.user.role') }}</strong>
-            </div>
-            <div>
-                <span>Status</span>
-                <strong>{{ session('auth.user.status') }}</strong>
-            </div>
-        </div>
-    </div>
+    <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+        @csrf
 
-    {{-- LOGOUT --}}
-    <div class="card-box">
-        <form action="{{ route('auth.logout') }}" method="POST"
-              onsubmit="return confirm('Apakah Anda yakin ingin logout?')">
-            @csrf
-            <button type="submit" class="btn btn-logout w-100">
-                Logout
+        <div class="profile-form-card">
+
+            {{-- FOTO --}}
+            <div class="form-group text-center">
+                <img
+                    id="previewImage"
+                    class="preview-img"
+                    src="{{ $profile['image']
+                            ? asset('storage/' . $profile['image'])
+                            : asset('assets/img/noimage.jpg') }}"
+                >
+                <label class="text-start">Ganti Foto Profil</label>
+                <input type="file" name="image" accept="image/*" onchange="previewImage(this)">
+            </div>
+
+            {{-- PHONE --}}
+            <div class="form-group">
+                <label>No. Telepon</label>
+                <input type="text" name="phone"
+                    value="{{ old('phone', $profile['phone']) }}">
+            </div>
+
+            {{-- BIO --}}
+            <div class="form-group">
+                <label>Bio</label>
+                <textarea name="bio" rows="3">{{ old('bio', $profile['bio']) }}</textarea>
+            </div>
+
+            {{-- EDUCATION --}}
+            <div class="form-group">
+                <label>Pendidikan</label>
+                <textarea name="education" rows="2">{{ old('education', $profile['education']) }}</textarea>
+            </div>
+
+            {{-- SKILLS --}}
+            <div class="form-group">
+                <label>Keahlian</label>
+                <textarea name="skills" rows="2">{{ old('skills', $profile['skills']) }}</textarea>
+            </div>
+
+            {{-- EXPERIENCE --}}
+            <div class="form-group">
+                <label>Pengalaman</label>
+                <textarea name="experience" rows="3">{{ old('experience', $profile['experience']) }}</textarea>
+            </div>
+
+            {{-- TESTIMONIAL --}}
+            <div class="form-group">
+                <label>Testimoni</label>
+                <textarea name="testimonial" rows="3">{{ old('testimonial', $profile['testimonial']) }}</textarea>
+            </div>
+
+            {{-- LINKEDIN --}}
+            <div class="form-group">
+                <label>LinkedIn URL</label>
+                <input type="url" name="linkedin_url"
+                    value="{{ old('linkedin_url', $profile['linkedin_url']) }}">
+            </div>
+
+            {{-- CV --}}
+            <div class="form-group">
+                <label>Upload CV (PDF)</label>
+                <input type="file" name="cv_file" accept="application/pdf">
+
+                @if (!empty($profile['cv_file']))
+                    <div class="file-info mt-1">
+                        CV saat ini:
+                        <a href="{{ asset('storage/' . $profile['cv_file']) }}" target="_blank">
+                            Lihat CV
+                        </a>
+                    </div>
+                @endif
+            </div>
+
+            <button type="submit" class="btn btn-light btn-orange w-100">
+                Simpan Perubahan
             </button>
-        </form>
-    </div>
+        </div>
+    </form>
 
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    function previewImage(input) {
+        const img = document.getElementById('previewImage');
+        if (input.files && input.files[0]) {
+            img.src = URL.createObjectURL(input.files[0]);
+        }
+    }
+</script>
 @endsection

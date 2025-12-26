@@ -42,7 +42,10 @@ Route::middleware('frontend.auth')->group(function () {
     // Profile
     Route::prefix('profile')->name('profile.')->group(function () {
         Route::get('/', [ProfileController::class, 'index'])->name('index');
-        Route::get('/update', [ProfileController::class, 'update'])->name('update');
+        Route::get('/create', [ProfileController::class, 'create'])->name('create');
+        Route::post('/', [ProfileController::class, 'store'])->name('store');
+        Route::get('/edit', [ProfileController::class, 'edit'])->name('edit');
+        Route::post('/update', [ProfileController::class, 'update'])->name('update');
     });
 
     // Campus Info

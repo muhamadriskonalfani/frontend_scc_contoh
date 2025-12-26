@@ -76,6 +76,26 @@
         font-weight: 500;
         border: none;
     }
+
+    .profile-avatar {
+        min-width: 90px;
+        min-height: 90px;
+        max-width: 90px;
+        max-height: 90px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--border);
+    }
+
+    .profile-name {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .profile-email {
+        font-size: 13px;
+        color: #777;
+    }
 </style>
 @endsection
 
@@ -96,40 +116,117 @@
 @section('content')
 <div class="content-offset container">
 
-    {{-- USER INFO --}}
-    <div class="card-box">
-        <h6 class="mb-3 fw-bold">Informasi Akun</h6>
+    <!-- Flash Message -->
+    @if (session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
 
-        <div class="user-info">
-            <div>
-                <span>Nama</span>
-                <strong>{{ session('auth.user.name') }}</strong>
-            </div>
-            <div>
-                <span>Email</span>
-                <strong>{{ session('auth.user.email') }}</strong>
-            </div>
-            <div>
-                <span>Role</span>
-                <strong>{{ session('auth.user.role') }}</strong>
-            </div>
-            <div>
-                <span>Status</span>
-                <strong>{{ session('auth.user.status') }}</strong>
+    @if (session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
+
+    @if (session('info'))
+        <div class="alert alert-info">{{ session('info') }}</div>
+    @endif
+
+    @if (!$exists)
+        <!-- Profile Belum Ada -->
+        <div class="card-box">
+            <div class="text-center px-2 py-4" style="color: #777;">
+                <i data-feather="user" style="width:48px;height:48px;"></i>
+                <h5 class="mt-3">Profil belum dibuat</h5>
+                <p class="mb-3">Lengkapi profil Anda agar lebih dikenal.</p>
+
+                <a href="{{ route('profile.create') }}" class="btn btn-logout w-100">
+                    Buat Profile
+                </a>
             </div>
         </div>
-    </div>
+    @endif
 
-    {{-- LOGOUT --}}
-    <div class="card-box">
-        <form action="{{ route('auth.logout') }}" method="POST"
-              onsubmit="return confirm('Apakah Anda yakin ingin logout?')">
-            @csrf
-            <button type="submit" class="btn btn-logout w-100">
-                Logout
-            </button>
-        </form>
-    </div>
+    @if ($exists)
+        <!-- Profile Ada -->
+        <div class="card-box text-center py-4">
+            <img
+                src="{{ !empty($profile['image'])
+                    ? config('services.api.domain_url') . '/storage/' . $profile['image']
+                    : asset('assets/img/noimage.jpg') }}"
+                class="profile-avatar mb-2"
+                alt="Profile Image"
+            >
+
+            <div class="profile-name">
+                {{ session('auth.user.name') }}
+            </div>
+
+            <div class="profile-email">
+                {{ session('auth.user.email') }}
+            </div>
+        </div>
+
+        <!-- User Profile -->
+        <div class="card-box">
+            <h6 class="mb-3 fw-bold">Profile Anda</h6>
+
+            <div class="user-info">
+                <div>
+                    <span>No. Telepon</span>
+                    <strong>{{ $profile['phone'] ?? '-' }}</strong>
+                </div>
+                <div>
+                    <span>Bio</span>
+                    <strong>{{ $profile['bio'] ?? '-' }}</strong>
+                </div>
+                <div>
+                    <span>Pendidikan</span>
+                    <strong>{{ $profile['education'] ?? '-' }}</strong>
+                </div>
+                <div>
+                    <span>Keahlian</span>
+                    <strong>{{ $profile['skills'] ?? '-' }}</strong>
+                </div>
+                <div>
+                    <span>Pengalaman</span>
+                    <strong>{{ $profile['experience'] ?? '-' }}</strong>
+                </div>
+                <div>
+                    <span>Testimoni</span>
+                    <strong>{{ $profile['testimonial'] ?? '-' }}</strong>
+                </div>
+                <div>
+                    <span>LinkedIn</span>
+                    <strong>
+                        @if (!empty($profile['linkedin_url']))
+                            <a href="{{ $profile['linkedin_url'] }}" target="_blank">
+                                {{ $profile['linkedin_url'] }}
+                            </a>
+                        @else
+                            <div>-</div>
+                        @endif
+                    </strong>
+                </div>
+                <div>
+                    <span>CV</span>
+                    <strong>
+                        @if (!empty($profile['cv_file']))
+                            <a href="{{ asset('storage/' . $profile['cv_file']) }}" target="_blank">
+                                Lihat CV
+                            </a>
+                        @else
+                            <div>-</div>
+                        @endif
+                    </strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Profile -->
+        <div class="card-box">
+            <a href="{{ route('profile.edit') }}" class="btn btn-logout w-100">
+                Edit Profile
+            </a>
+        </div>
+    @endif
 
 </div>
 @endsection
