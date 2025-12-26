@@ -153,7 +153,7 @@
                 </a>
             </div>
             <div class="col-4">
-                <a href="{{ route('campus.index') }}" class="menu-grid text-decoration-none text-dark">
+                <a href="{{ route('campus.info.index') }}" class="menu-grid text-decoration-none text-dark">
                     <i data-feather="book-open"></i>
                     <span>Kampus</span>
                 </a>

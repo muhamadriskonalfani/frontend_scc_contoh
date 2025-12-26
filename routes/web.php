@@ -50,7 +50,8 @@ Route::middleware('frontend.auth')->group(function () {
 
     // Campus Info
     Route::prefix('campus')->name('campus.')->group(function () {
-        Route::get('/', [CampusController::class, 'index'])->name('index');
+        Route::get('/info', [CampusController::class, 'index'])->name('info.index');
+        Route::get('/info/{id}', [CampusController::class, 'show'])->name('info.show');
     });
 
     // Job Vacancy

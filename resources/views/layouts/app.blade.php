@@ -87,7 +87,7 @@
                     <div>Career</div>
                 </a>
 
-                <a href="{{ route('campus.index') }}" class="text-center {{ request()->routeIs('campus.index') ? 'active' : '' }}">
+                <a href="{{ route('campus.info.index') }}" class="text-center {{ request()->routeIs('campus.index') ? 'active' : '' }}">
                     <i data-feather="book-open"></i>
                     <div>Kampus</div>
                 </a>

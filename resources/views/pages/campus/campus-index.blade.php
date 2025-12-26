@@ -54,28 +54,50 @@
         color: var(--fresh-orange);
     }
 
-    /* USER INFO */
-    .user-info div {
-        display: flex;
-        justify-content: space-between;
-        padding: 6px 0;
-        border-bottom: 1px dashed #eee;
-        font-size: 13px;
-    }
-
-    .user-info div:last-child {
-        border-bottom: none;
-    }
-
-    /* LOGOUT */
-    .btn-logout {
-        background: var(--fresh-orange);
-        color: #fff;
+    /* CARD INFO CAMPUS */
+    .campus-card {
+        background: #fff;
         border-radius: 12px;
-        padding: 12px;
-        font-weight: 500;
-        border: none;
+        overflow: hidden;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+        height: 100%;
+        transition: all .2s;
     }
+
+    .campus-card:hover {
+        transform: translateY(-3px);
+    }
+
+    .campus-image {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        background: #eee;
+    }
+
+    .campus-body {
+        padding: 12px;
+    }
+
+    .campus-title {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--fresh-orange);
+        margin-bottom: 6px;
+    }
+
+    .campus-excerpt {
+        font-size: 12px;
+        color: #555;
+        line-height: 1.4;
+    }
+
+    .campus-date {
+        font-size: 11px;
+        color: #999;
+        margin-top: 8px;
+    }
+
 </style>
 @endsection
 
@@ -96,39 +118,48 @@
 @section('content')
 <div class="content-offset container">
 
-    {{-- USER INFO --}}
-    <div class="card-box">
-        <h6 class="mb-3 fw-bold">Informasi Akun</h6>
+    <div class="row g-3">
 
-        <div class="user-info">
-            <div>
-                <span>Nama</span>
-                <strong>{{ session('auth.user.name') }}</strong>
-            </div>
-            <div>
-                <span>Email</span>
-                <strong>{{ session('auth.user.email') }}</strong>
-            </div>
-            <div>
-                <span>Role</span>
-                <strong>{{ session('auth.user.role') }}</strong>
-            </div>
-            <div>
-                <span>Status</span>
-                <strong>{{ session('auth.user.status') }}</strong>
-            </div>
-        </div>
-    </div>
+        @forelse ($informations as $info)
+            <div class="col-6">
+                <a href="{{ route('campus.info.show', $info['id']) }}"
+                   class="text-decoration-none text-dark">
 
-    {{-- LOGOUT --}}
-    <div class="card-box">
-        <form action="{{ route('auth.logout') }}" method="POST"
-              onsubmit="return confirm('Apakah Anda yakin ingin logout?')">
-            @csrf
-            <button type="submit" class="btn btn-logout w-100">
-                Logout
-            </button>
-        </form>
+                    <div class="campus-card">
+                        
+                        {{-- IMAGE --}}
+                        @if (!empty($info['image']))
+                            <img src="{{ $info['image'] }}" class="campus-image">
+                        @else
+                            <div class="campus-image d-flex align-items-center justify-content-center text-muted">
+                                <small>Tidak ada gambar</small>
+                            </div>
+                        @endif
+
+                        {{-- BODY --}}
+                        <div class="campus-body">
+                            <div class="campus-title">
+                                {{ $info['title'] }}
+                            </div>
+
+                            <div class="campus-excerpt">
+                                {{ $info['excerpt'] }}
+                            </div>
+
+                            <div class="campus-date">
+                                {{ $info['created_at'] }}
+                            </div>
+                        </div>
+
+                    </div>
+                </a>
+            </div>
+        @empty
+            <div class="col-12 text-center text-muted">
+                Tidak ada informasi kampus.
+            </div>
+        @endforelse
+
     </div>
 
 </div>
