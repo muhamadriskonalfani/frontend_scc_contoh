@@ -56,9 +56,20 @@ Route::middleware('frontend.auth')->group(function () {
 
     // Job Vacancy
     Route::prefix('job-vacancy')->name('job_vacancy.')->group(function () {
+        // Student & Alumni
         Route::get('/', [JobVacancyController::class, 'index'])->name('index');
-        Route::get('/create', [JobVacancyController::class, 'create'])->name('create');
-        Route::get('/update', [JobVacancyController::class, 'update'])->name('update');
+
+        // Alumni only
+        Route::middleware('role:alumni')->group(function () {
+            Route::get('/my/list', [JobVacancyController::class, 'myJobVacancies'])->name('my');
+            Route::get('/create', [JobVacancyController::class, 'create'])->name('create');
+            Route::post('/', [JobVacancyController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [JobVacancyController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [JobVacancyController::class, 'update'])->name('update');
+        });
+
+        // Taruh Paling Bawah
+        Route::get('/{id}', [JobVacancyController::class, 'show'])->name('show');
     });
     
     // Apprenticeship

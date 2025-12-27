@@ -232,7 +232,7 @@
         <a href="{{ route('apprenticeship.my') }}" class="btn btn-light btn-logout w-100 mb-2">
             Info Magang Saya
         </a>
-        <a href="#" class="btn btn-light btn-logout w-100">
+        <a href="{{ route('job_vacancy.my') }}" class="btn btn-light btn-logout w-100">
             Info Loker Saya
         </a>
     </div>

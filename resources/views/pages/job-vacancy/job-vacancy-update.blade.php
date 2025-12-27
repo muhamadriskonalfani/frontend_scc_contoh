@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Update Info Loker')
+@section('title', 'Update Lowongan Pekerjaan')
 
 @section('styles')
 <style>
@@ -17,10 +17,10 @@
         right: 0;
         padding: 14px 16px;
         display: flex;
-        justify-content: space-between;
         align-items: center;
         background: var(--white-box);
         z-index: 999;
+        border-bottom: 1px solid var(--border);
     }
 
     .topbar .title-text {
@@ -32,49 +32,53 @@
         gap: 6px;
     }
 
-    .topbar a {
-        color: var(--fresh-orange);
-    }
-
     .content-offset {
         padding-top: 10px;
         padding-bottom: 20px;
     }
 
-    /* CARD */
-    .card-box {
-        background: #fff;
-        border-radius: 5px;
+    .profile-form-card {
+        background: var(--white-box);
+        border-radius: 12px;
         padding: 16px;
-        margin-bottom: 18px;
+        margin-bottom: 20px;
         box-shadow: 0 6px 16px rgba(0,0,0,0.05);
     }
 
-    .card-box h6 {
-        color: var(--fresh-orange);
+    .form-group {
+        margin-bottom: 14px;
     }
 
-    /* USER INFO */
-    .user-info div {
-        display: flex;
-        justify-content: space-between;
-        padding: 6px 0;
-        border-bottom: 1px dashed #eee;
-        font-size: 13px;
+    .form-group label {
+        font-size: 12px;
+        font-weight: 500;
+        color: #666;
+        margin-bottom: 4px;
+        display: block;
     }
 
-    .user-info div:last-child {
-        border-bottom: none;
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        padding: 10px;
+        font-size: 14px;
     }
 
-    /* LOGOUT */
-    .btn-logout {
+    textarea {
+        resize: none;
+    }
+
+    .btn-orange {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: none;
         background: var(--fresh-orange);
         color: #fff;
-        border-radius: 12px;
-        padding: 12px;
+        font-size: 15px;
         font-weight: 500;
-        border: none;
     }
 </style>
 @endsection
@@ -82,54 +86,80 @@
 @section('header')
 <div class="topbar">
     <div class="title-text">
-        <span>🔥</span>
-        <span>UPDATE INFO LOKER</span>
-    </div>
-
-    <div class="d-flex gap-3 align-items-center">
-        <a href="#"><i data-feather="search"></i></a>
-        <a href="#"><i data-feather="bell"></i></a>
+        <span>✏️</span>
+        <span>UPDATE LOWONGAN</span>
     </div>
 </div>
 @endsection
 
 @section('content')
-<div class="content-offset container">
+<div class="content-offset">
 
-    {{-- USER INFO --}}
-    <div class="card-box">
-        <h6 class="mb-3 fw-bold">Informasi Akun</h6>
+    <form action="{{ route('job_vacancy.update', $jobVacancy['id']) }}" method="POST">
+        @csrf
+        @method('PUT')
 
-        <div class="user-info">
-            <div>
-                <span>Nama</span>
-                <strong>{{ session('auth.user.name') }}</strong>
-            </div>
-            <div>
-                <span>Email</span>
-                <strong>{{ session('auth.user.email') }}</strong>
-            </div>
-            <div>
-                <span>Role</span>
-                <strong>{{ session('auth.user.role') }}</strong>
-            </div>
-            <div>
-                <span>Status</span>
-                <strong>{{ session('auth.user.status') }}</strong>
-            </div>
-        </div>
-    </div>
+        <div class="profile-form-card">
 
-    {{-- LOGOUT --}}
-    <div class="card-box">
-        <form action="{{ route('auth.logout') }}" method="POST"
-              onsubmit="return confirm('Apakah Anda yakin ingin logout?')">
-            @csrf
-            <button type="submit" class="btn btn-logout w-100">
-                Logout
+            {{-- TITLE --}}
+            <div class="form-group">
+                <label>Judul Lowongan</label>
+                <input
+                    type="text"
+                    name="title"
+                    value="{{ old('title', $jobVacancy['title']) }}"
+                    required
+                >
+            </div>
+
+            {{-- COMPANY --}}
+            <div class="form-group">
+                <label>Nama Perusahaan</label>
+                <input
+                    type="text"
+                    name="company_name"
+                    value="{{ old('company_name', $jobVacancy['company_name']) }}"
+                    required
+                >
+            </div>
+
+            {{-- LOCATION --}}
+            <div class="form-group">
+                <label>Lokasi Kerja</label>
+                <input
+                    type="text"
+                    name="location"
+                    value="{{ old('location', $jobVacancy['location']) }}"
+                    required
+                >
+            </div>
+
+            {{-- DESCRIPTION --}}
+            <div class="form-group">
+                <label>Deskripsi Pekerjaan</label>
+                <textarea
+                    name="description"
+                    rows="4"
+                    required
+                >{{ old('description', $jobVacancy['description']) }}</textarea>
+            </div>
+
+            {{-- EXPIRED --}}
+            <div class="form-group">
+                <label>Tanggal Berakhir Lowongan</label>
+                <input
+                    type="date"
+                    name="expired_at"
+                    value="{{ old('expired_at', $jobVacancy['expired_at']) }}"
+                >
+            </div>
+
+            <button type="submit" class="btn-orange">
+                Update & Ajukan Ulang
             </button>
-        </form>
-    </div>
+
+        </div>
+    </form>
 
 </div>
 @endsection
