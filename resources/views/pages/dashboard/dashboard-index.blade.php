@@ -135,6 +135,12 @@
 
         <div class="row g-3">
             <div class="col-4">
+                <a href="{{ route('directory.index') }}" class="menu-grid text-decoration-none text-dark">
+                    <i data-feather="users"></i>
+                    <span>Direktori</span>
+                </a>
+            </div>
+            <div class="col-4">
                 <a href="{{ route('tracer_study.index') }}" class="menu-grid text-decoration-none text-dark">
                     <i data-feather="activity"></i>
                     <span>Tracer</span>

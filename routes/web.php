@@ -3,6 +3,7 @@
 use App\Http\Controllers\Apprenticeship\ApprenticeshipController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Campus\CampusController;
+use App\Http\Controllers\CampusDirectory\CampusDirectoryController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\JobVacancy\JobVacancyController;
 use App\Http\Controllers\Profile\ProfileController;
@@ -31,6 +32,12 @@ Route::prefix('auth')->name('auth.')->group(function () {
 Route::middleware('frontend.auth')->group(function () {
     // Home / Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Campus Directory
+    Route::prefix('directory')->name('directory.')->group(function () {
+        Route::get('/', [CampusDirectoryController::class, 'index'])->name('index');
+        Route::get('/{id}', [CampusDirectoryController::class, 'show'])->name('show');
+    });
 
     // Tracer Study
     Route::prefix('tracer-study')->name('tracer_study.')->group(function () {
