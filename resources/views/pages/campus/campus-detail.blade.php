@@ -6,73 +6,89 @@
 <style>
     body {
         font-size: 14px;
-        background: #f6f7fb;
     }
 
-    /* TOP BAR */
+    /* =========================
+        HEADER 
+    ========================== */
     .topbar {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
-        padding: 14px 16px;
+        height: 56px;
+        background: var(--white);
         display: flex;
         align-items: center;
-        gap: 5px;
-        background: var(--white-box);
-        z-index: 999;
-        border-bottom: 1px solid #eee;
+        justify-content: center;
+        border-bottom: 1px solid var(--border);
     }
 
-    .topbar .title-text {
-        color: var(--fresh-orange);
-        font-weight: 700;
-        font-size: 18px;
-        display: flex;
-        align-items: center;
-        gap: 6px;
+    .topbar .back-btn {
+        position: absolute;
+        left: 16px;
+        color: var(--text-dark);
     }
 
-    .topbar a {
-        color: var(--fresh-orange);
+    .topbar .title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-dark);
     }
 
+    .topbar .action-btn {
+        position: absolute;
+        right: 16px;
+        color: var(--text-dark);
+    }
+
+    /* =========================
+       CONTENT
+    ========================== */
     .content-offset {
-        padding-top: 10px;
-        padding-bottom: 20px;
+        padding: 16px;
+        padding-top: 75px;
     }
 
-    /* DETAIL CARD */
-    .detail-card {
-        background: #fff;
-        border-radius: 12px;
-        box-shadow: 0 6px 16px rgba(0,0,0,0.05);
-        overflow: hidden;
-    }
-
+    /* =========================
+        IMAGE
+    ========================== */
     .detail-image {
         width: 100%;
-        height: 200px;
+        height: 220px;
         object-fit: cover;
         background: #eee;
+        border-radius: 14px;
     }
 
-    .detail-body {
+    /* CARD */
+    .card-box {
+        background: #fff;
+        border-radius: 14px;
         padding: 16px;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+        margin-bottom: 16px;
     }
 
     .detail-title {
         font-size: 18px;
         font-weight: 800;
         color: var(--fresh-orange);
+        line-height: 1.4;
         margin-bottom: 6px;
-        line-height: 1.3;
     }
 
     .detail-date {
         font-size: 12px;
         color: #999;
-        margin-bottom: 12px;
+    }
+
+    /* SECTION */
+    .section-title {
+        font-size: 15px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 10px;
     }
 
     .detail-description {
@@ -89,45 +105,47 @@
 
 @section('header')
 <div class="topbar">
-    <a href="{{ route('campus.info.index') }}" class="text-decoration-none text-dark">
-        <i data-feather="arrow-left" style="color: var(--fresh-orange);"></i>
+    <a href="{{ route('campus.info.index') }}" class="back-btn">
+        <i data-feather="chevron-left"></i>
     </a>
 
-    <div class="title-text">
-        <span>INFO KAMPUS</span>
-    </div>
+    <div class="title">Detail Info Kampus</div>
 </div>
 @endsection
 
 @section('content')
 <div class="content-offset container">
 
-    <div class="detail-card">
+    {{-- IMAGE --}}
+    @if (!empty($information['image']))
+        <img src="{{ $information['image'] }}" class="detail-image mb-3">
+    @else
+        <div class="detail-image d-flex align-items-center justify-content-center text-muted mb-3">
+            <small>Tidak ada gambar</small>
+        </div>
+    @endif
 
-        {{-- IMAGE --}}
-        @if (!empty($information['image']))
-            <img src="{{ $information['image'] }}" class="detail-image">
-        @else
-            <div class="detail-image d-flex align-items-center justify-content-center text-muted">
-                <small>Tidak ada gambar</small>
-            </div>
-        @endif
-
-        {{-- BODY --}}
-        <div class="detail-body">
-            <div class="detail-title">
-                {{ $information['title'] }}
-            </div>
-
-            <div class="detail-date">
-                Dipublikasikan {{ $information['created_at'] }}
-            </div>
-
-            <div class="detail-description">
-                {!! nl2br(e($information['description'])) !!}
-            </div>
+    {{-- INFO UTAMA --}}
+    <div class="card-box">
+        <div class="detail-title">
+            {{ $information['title'] }}
         </div>
 
+        <div class="detail-date">
+            Dipublikasikan
+            {{ \Carbon\Carbon::parse($information['created_at'])->translatedFormat('d F Y') }}
+        </div>
+    </div>
+
+    {{-- DESKRIPSI --}}
+    <div class="card-box">
+        <div class="section-title">
+            Deskripsi Informasi
+        </div>
+
+        <div class="detail-description">
+            {!! nl2br(e($information['description'])) !!}
+        </div>
     </div>
 
 </div>

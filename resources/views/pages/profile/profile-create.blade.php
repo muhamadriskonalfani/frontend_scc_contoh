@@ -6,179 +6,208 @@
 <style>
     body {
         font-size: 14px;
-        background: #f6f7fb;
     }
 
-    /* TOP BAR */
+    /* =========================
+       HEADER
+    ========================== */
     .topbar {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
-        padding: 14px 16px;
+        height: 56px;
+        background: var(--white);
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        background: var(--white-box);
-        z-index: 999;
+        justify-content: center;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
 
-    .topbar .title-text {
-        color: var(--fresh-orange);
-        font-weight: 700;
+    .topbar .back-btn {
+        position: absolute;
+        left: 16px;
+        color: var(--text-dark);
+    }
+
+    .topbar .title {
         font-size: 18px;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-
-    .topbar a {
-        color: var(--fresh-orange);
+        font-weight: 600;
+        color: var(--text-dark);
     }
 
     .content-offset {
-        padding-top: 10px;
-        padding-bottom: 20px;
+        padding: 65px 0px 0px;
     }
 
-    /* FORM */
-    .auth-form {
-        padding: 10px 15px;
+    /* =========================
+       FORM CARD
+    ========================== */
+    .profile-form-card {
+        background: var(--white);
+        border-radius: 14px;
+        padding: 16px;
+        margin: 16px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.06);
     }
 
-    .auth-form label {
-        font-size: 14px;
+    .form-group {
+        margin-bottom: 14px;
+    }
+
+    .form-group label {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-muted);
         margin-bottom: 6px;
         display: block;
-        color: #444;
     }
 
-    .auth-form .form-control {
+    .form-control {
         width: 100%;
-        padding: 12px;
-        border-radius: 8px;
-        border: 1px solid #ddd;
-        margin-bottom: 16px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
         font-size: 14px;
     }
 
-    .auth-form button {
-        width: 100%;
-        padding: 12px;
-        border-radius: 8px;
-        border: none;
-        background: var(--fresh-orange);
-        color: #fff;
-        font-size: 15px;
-        font-weight: 500;
+    .form-control:focus {
+        border-color: var(--blue);
+        box-shadow: none;
     }
 
     textarea {
         resize: none;
     }
 
+    /* =========================
+       FOTO PROFIL
+    ========================== */
+    .photo-wrapper {
+        text-align: center;
+        margin-bottom: 16px;
+    }
+
     .preview-img {
-        width: 80px;
-        height: 80px;
+        width: 90px;
+        height: 90px;
         border-radius: 50%;
         object-fit: cover;
+        border: 1px solid var(--border);
         margin-bottom: 8px;
         display: none;
-        border: 1px solid var(--border);
+    }
+
+    /* =========================
+       BUTTON
+    ========================== */
+    .btn-save {
+        width: 100%;
+        height: 44px;
+        border-radius: 10px;
+        border: none;
+        background: linear-gradient(90deg, var(--blue), var(--blue-dark));
+        color: #fff;
+        font-size: 15px;
+        font-weight: 500;
+        margin-top: 8px;
     }
 </style>
 @endsection
 
 @section('header')
 <div class="topbar">
-    <div class="title-text">
-        <span>🔥</span>
-        <span>BUAT PROFIL</span>
-    </div>
-
-    <div class="d-flex gap-3 align-items-center">
-        <a href="#"><i data-feather="search"></i></a>
-        <a href="#"><i data-feather="bell"></i></a>
-    </div>
+    <a href="{{ route('profile.index') }}" class="back-btn">
+        <i data-feather="chevron-left"></i>
+    </a>
+    <div class="title">Buat Profil</div>
 </div>
 @endsection
 
 @section('content')
-<div class="content-offset container">
-    <!-- Alert -->
+<div class="content-offset">
+    {{-- ALERT --}}
     @if (session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
+        <div class="alert alert-danger mx-3 mt-3">
+            {{ session('error') }}
+        </div>
     @endif
 
-    <!-- Form Create Profile -->
-    <div class="auth-form">
-        <form action="{{ route('profile.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
+    <form action="{{ route('profile.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
 
-            <div class="mb-3">
-                <label>Foto Profil</label>
-                <input type="file" class="form-control" 
-                    name="image" accept="image/*" onchange="previewImage(this)">
+        <div class="profile-form-card">
+
+            {{-- FOTO --}}
+            <div class="photo-wrapper">
+                <img id="previewImage"
+                    class="preview-img"
+                    src="{{ asset('assets/img/noimage.jpg') }}">
+                <div class="form-group">
+                    <label>Foto Profil</label>
+                    <input type="file"
+                        name="image"
+                        class="form-control"
+                        accept="image/*"
+                        onchange="previewImage(this)">
+                </div>
             </div>
 
-            <div class="mb-3">
+            <div class="form-group">
                 <label>No. Telepon</label>
-                <input type="text" class="form-control"
-                    name="phone" value="{{ old('phone') }}">
+                <input type="text"
+                    name="phone"
+                    class="form-control"
+                    value="{{ old('phone') }}">
             </div>
 
-            <div class="mb-3">
+            <div class="form-group">
                 <label>Bio</label>
-                <textarea name="bio" rows="3" class="form-control">
-                    {{ old('bio') }}
-                </textarea>
+                <textarea name="bio" rows="3" class="form-control">{{ old('bio') }}</textarea>
             </div>
-            
-            <div class="mb-3">
+
+            <div class="form-group">
                 <label>Pendidikan</label>
-                <textarea name="education" rows="2" class="form-control">
-                    {{ old('education') }}
-                </textarea>
+                <textarea name="education" rows="2" class="form-control">{{ old('education') }}</textarea>
             </div>
-            
-            <div class="mb-3">
+
+            <div class="form-group">
                 <label>Keahlian</label>
-                <textarea name="skills" rows="2" class="form-control">
-                    {{ old('skills') }}
-                </textarea>
+                <textarea name="skills" rows="2" class="form-control">{{ old('skills') }}</textarea>
             </div>
-            
-            <div class="mb-3">
+
+            <div class="form-group">
                 <label>Pengalaman</label>
-                <textarea name="experience" rows="3" class="form-control">
-                    {{ old('experience') }}
-                </textarea>
+                <textarea name="experience" rows="3" class="form-control">{{ old('experience') }}</textarea>
             </div>
 
-            <div class="mb-3">
+            <div class="form-group">
                 <label>Testimoni</label>
-                <textarea name="testimonial" rows="3" class="form-control">
-                    {{ old('testimonial') }}
-                </textarea>
+                <textarea name="testimonial" rows="3" class="form-control">{{ old('testimonial') }}</textarea>
             </div>
 
-            <div class="mb-3">
+            <div class="form-group">
                 <label>LinkedIn URL</label>
-                <input type="url" class="form-control"
-                    name="linkedin_url" value="{{ old('linkedin_url') }}">
+                <input type="url"
+                    name="linkedin_url"
+                    class="form-control"
+                    value="{{ old('linkedin_url') }}">
             </div>
 
-            <div class="mb-3">
+            <div class="form-group">
                 <label>Upload CV (PDF)</label>
-                <input type="file" class="form-control"
-                    name="cv_file" accept="application/pdf">
+                <input type="file"
+                    name="cv_file"
+                    class="form-control"
+                    accept="application/pdf">
             </div>
 
-            <button type="submit" class="btn btn-light w-100">
+            <button type="submit" class="btn-save">
                 Simpan Profil
             </button>
-        </form>
-    </div>
+
+        </div>
+    </form>
 </div>
 @endsection
 

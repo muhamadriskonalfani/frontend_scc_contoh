@@ -31,7 +31,10 @@ Route::prefix('auth')->name('auth.')->group(function () {
 
 Route::middleware('frontend.auth')->group(function () {
     // Home / Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('index');
+        Route::get('/career-info', [DashboardController::class, 'careerInfo'])->name('career_info');
+    });
 
     // Campus Directory
     Route::prefix('directory')->name('directory.')->group(function () {
@@ -53,6 +56,7 @@ Route::middleware('frontend.auth')->group(function () {
         Route::post('/', [ProfileController::class, 'store'])->name('store');
         Route::get('/edit', [ProfileController::class, 'edit'])->name('edit');
         Route::post('/update', [ProfileController::class, 'update'])->name('update');
+        Route::get('/career-info', [ProfileController::class, 'careerInfo'])->name('career_info');
     });
 
     // Campus Info

@@ -55,7 +55,7 @@ class ProfileController extends Controller
 
         } catch (\Exception $e) {
             return redirect()
-                ->route('dashboard')
+                ->route('dashboard.index')
                 ->with('error', $e->getMessage());
         }
     }
@@ -211,5 +211,10 @@ class ProfileController extends Controller
         } catch (\Exception $e) {
             return back()->withInput()->with('error', $e->getMessage());
         }
+    }
+
+    public function careerInfo()
+    {
+        return view('pages.profile.profile-career-info');
     }
 }

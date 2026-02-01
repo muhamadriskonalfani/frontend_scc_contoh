@@ -6,54 +6,59 @@
 <style>
     body {
         font-size: 14px;
-        background: #f6f7fb;
     }
 
-    /* TOP BAR */
+    /* =========================
+        HEADER 
+    ========================== */
     .topbar {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
-        padding: 14px 16px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: var(--white-box);
-        z-index: 999;
-    }
-
-    .topbar .title-text {
-        color: var(--fresh-orange);
-        font-weight: 700;
-        font-size: 18px;
+        height: 56px;
+        background: var(--white);
         display: flex;
         align-items: center;
-        gap: 6px;
+        justify-content: center;
+        border-bottom: 1px solid var(--border);
     }
 
-    .topbar a {
-        color: var(--fresh-orange);
+    .topbar .back-btn {
+        position: absolute;
+        left: 16px;
+        color: var(--text-dark);
     }
 
+    .topbar .title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-dark);
+    }
+
+    /* =========================
+       CONTENT
+    ========================== */
     .content-offset {
-        padding-top: 10px;
-        padding-bottom: 20px;
+        padding: 16px;
+        padding-top: 75px;
     }
 
-    /* FORM */
-    .auth-form {
+    /* =========================
+       FORM CARD
+    ========================== */
+    .form-card {
         padding: 10px 15px;
     }
 
-    .auth-form label {
+    .form-card label {
         font-size: 14px;
         margin-bottom: 6px;
         display: block;
         color: #444;
     }
 
-    .auth-form .form-control {
+    .form-card .form-control {
         width: 100%;
         padding: 12px;
         border-radius: 8px;
@@ -62,30 +67,29 @@
         font-size: 14px;
     }
 
-    .auth-form button {
-        width: 100%;
-        padding: 12px;
-        border-radius: 8px;
+    /* =========================
+       BUTTON
+    ========================== */
+    .btn-primary {
         border: none;
-        background: var(--fresh-orange);
-        color: #fff;
+        border-radius: 8px;
+        padding: 12px;
         font-size: 15px;
         font-weight: 500;
+    }
+
+    .btn-primary:active {
+        background: var(--blue-dark);
     }
 </style>
 @endsection
 
 @section('header')
 <div class="topbar">
-    <div class="title-text">
-        <span>🔥</span>
-        <span>UPDATE TRACER STUDY</span>
-    </div>
-
-    <div class="d-flex gap-3 align-items-center">
-        <a href="#"><i data-feather="search"></i></a>
-        <a href="#"><i data-feather="bell"></i></a>
-    </div>
+    <a href="{{ url()->previous() }}" class="back-btn">
+        <i data-feather="chevron-left"></i>
+    </a>
+    <div class="title">Update Tracer Study</div>
 </div>
 @endsection
 
@@ -93,7 +97,7 @@
 <div class="content-offset container">
 
     {{-- FORM TRACER STUDY --}}
-    <div class="auth-form">
+    <div class="form-card">
         <form action="{{ route('tracer_study.save_update') }}" method="POST">
             @csrf
 
@@ -193,7 +197,7 @@
                     class="form-control">
             </div>
 
-            <button class="btn btn-primary w-100">
+            <button class="btn btn-primary w-100 mt-4">
                 Simpan Perubahan
             </button>
         </form>

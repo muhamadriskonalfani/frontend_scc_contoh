@@ -6,176 +6,223 @@
 <style>
     body {
         font-size: 14px;
-        background: #f6f7fb;
     }
 
-    /* TOP BAR */
+    /* =========================
+        TOP BAR
+    ========================== */
     .topbar {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
-        padding: 14px 16px;
+        height: 56px;
+        background: var(--white);
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        background: var(--white-box);
-        z-index: 999;
+        justify-content: center;
         border-bottom: 1px solid #eee;
     }
 
-    .topbar .title-text {
-        color: var(--fresh-orange);
-        font-weight: 700;
-        font-size: 18px;
-        display: flex;
-        align-items: center;
-        gap: 6px;
+    .topbar .back-btn {
+        position: absolute;
+        left: 16px;
+        color: var(--text-dark);
     }
 
-    .topbar a {
-        color: var(--fresh-orange);
+    .topbar .action-btn {
+        position: absolute;
+        right: 16px;
+        color: var(--text-dark);
     }
 
+    .topbar .title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-dark);
+    }
+
+    /* =========================
+        CONTENT
+    ========================== */
     .content-offset {
         padding-top: 70px;
-        padding-bottom: 20px;
+        padding-bottom: 24px;
     }
 
-    /* DETAIL CARD */
-    .detail-card {
-        background: #fff;
-        border-radius: 14px;
-        box-shadow: 0 6px 16px rgba(0,0,0,0.05);
-        overflow: hidden;
-    }
-
+    /* =========================
+        IMAGE
+    ========================== */
     .detail-image {
         width: 100%;
         height: 220px;
         object-fit: cover;
         background: #eee;
+        border-radius: 14px;
     }
 
-    .detail-body {
+    /* =========================
+        CARD
+    ========================== */
+    .detail-card {
+        background: #fff;
+        border-radius: 14px;
         padding: 16px;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+        margin-top: -40px;
+        position: relative;
+        z-index: 2;
     }
 
     .detail-title {
         font-size: 18px;
-        font-weight: 800;
-        color: var(--fresh-orange);
+        font-weight: 700;
+        color: var(--text-dark);
         margin-bottom: 6px;
         line-height: 1.4;
     }
 
-    .detail-meta {
+    .detail-company {
         font-size: 13px;
         color: #666;
         margin-bottom: 12px;
     }
 
+    .detail-meta {
+        font-size: 12px;
+        color: #777;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
     .detail-meta div {
-        margin-bottom: 4px;
         display: flex;
         align-items: center;
         gap: 6px;
     }
 
-    .detail-description {
-        font-size: 14px;
-        line-height: 1.7;
-        color: #444;
-        margin-top: 10px;
+    .detail-meta i {
+        width: 14px;
+        height: 14px;
     }
 
     .badge-expired {
         display: inline-block;
-        font-size: 12px;
-        padding: 4px 8px;
-        border-radius: 8px;
+        margin-top: 12px;
+        font-size: 11px;
+        padding: 5px 10px;
+        border-radius: 20px;
         background: #fff3cd;
         color: #856404;
-        margin-top: 10px;
+        font-weight: 600;
+    }
+
+    /* =========================
+        SECTION
+    ========================== */
+    .section-box {
+        background: #fff;
+        border-radius: 14px;
+        padding: 16px;
+        margin-top: 12px;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.04);
+    }
+
+    .section-title {
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .section-title i {
+        width: 16px;
+        height: 16px;
+        color: var(--text-dark);
+    }
+
+    .section-content {
+        font-size: 14px;
+        line-height: 1.7;
+        color: #444;
     }
 </style>
 @endsection
 
 @section('header')
 <div class="topbar">
-    <div class="d-flex gap-2 align-items-center">
-        <a href="{{ route('apprenticeship.index') }}" class="text-decoration-none">
-            <i data-feather="arrow-left"></i>
-        </a>
-        <div class="title-text">
-            <span>DETAIL MAGANG</span>
-        </div>
-    </div>
+    <a href="{{ route('apprenticeship.index') }}" class="back-btn">
+        <i data-feather="chevron-left"></i>
+    </a>
 
-    <div class="d-flex gap-3 align-items-center">
-        @if ($apprenticeship['created_by'] === session('auth.user.id'))
-            <a href="{{ route('apprenticeship.edit', $apprenticeship['id']) }}">
-                <i data-feather="edit-2"></i>
-            </a>
-        @endif
-    </div>
+    <div class="title">Detail Magang</div>
+
+    @if ($apprenticeship['created_by'] === session('auth.user.id'))
+        <a href="{{ route('apprenticeship.edit', $apprenticeship['id']) }}" class="action-btn">
+            <i data-feather="edit-2"></i>
+        </a>
+    @endif
 </div>
 @endsection
 
 @section('content')
 <div class="content-offset container">
 
+    {{-- IMAGE --}}
+    @if (!empty($apprenticeship['image']))
+        <img src="{{ $apprenticeship['image'] }}" class="detail-image">
+    @else
+        <div class="detail-image d-flex align-items-center justify-content-center text-muted">
+            <small>Tidak ada gambar</small>
+        </div>
+    @endif
+
+    {{-- MAIN INFO --}}
     <div class="detail-card">
 
-        {{-- IMAGE --}}
-        @if (!empty($apprenticeship['image']))
-            <img src="{{ $apprenticeship['image'] }}" class="detail-image">
-        @else
-            <div class="detail-image d-flex align-items-center justify-content-center text-muted">
-                <small>Tidak ada gambar</small>
-            </div>
-        @endif
-
-        {{-- BODY --}}
-        <div class="detail-body">
-
-            <div class="detail-title">
-                {{ $apprenticeship['title'] }}
-            </div>
-
-            <div class="detail-meta">
-                <div>
-                    <i data-feather="briefcase"></i>
-                    <span>{{ $apprenticeship['company_name'] }}</span>
-                </div>
-
-                <div>
-                    <i data-feather="map-pin"></i>
-                    <span>{{ $apprenticeship['location'] }}</span>
-                </div>
-
-                <div>
-                    <i data-feather="calendar"></i>
-                    <span>
-                        Dipublikasikan
-                        {{ \Carbon\Carbon::parse($apprenticeship['created_at'])->translatedFormat('d F Y') }}
-                    </span>
-                </div>
-            </div>
-
-            @if (!empty($apprenticeship['expired_at']))
-                <div class="badge-expired">
-                    Berlaku sampai
-                    {{ \Carbon\Carbon::parse($apprenticeship['expired_at'])->translatedFormat('d F Y') }}
-                </div>
-            @endif
-
-            <div class="detail-description">
-                {!! nl2br(e($apprenticeship['description'])) !!}
-            </div>
-
+        <div class="detail-title">
+            {{ $apprenticeship['title'] }}
         </div>
 
+        <div class="detail-company">
+            {{ $apprenticeship['company_name'] }}
+        </div>
+
+        <div class="detail-meta">
+            <div>
+                <i data-feather="map-pin"></i>
+                {{ $apprenticeship['location'] }}
+            </div>
+
+            <div>
+                <i data-feather="calendar"></i>
+                Dipublikasikan
+                {{ \Carbon\Carbon::parse($apprenticeship['created_at'])->translatedFormat('d F Y') }}
+            </div>
+        </div>
+
+        @if (!empty($apprenticeship['expired_at']))
+            <div class="badge-expired">
+                Berlaku sampai
+                {{ \Carbon\Carbon::parse($apprenticeship['expired_at'])->translatedFormat('d F Y') }}
+            </div>
+        @endif
+    </div>
+
+    {{-- DESCRIPTION --}}
+    <div class="section-box">
+        <div class="section-title">
+            <i data-feather="file-text"></i>
+            Deskripsi Magang
+        </div>
+
+        <div class="section-content">
+            {!! nl2br(e($apprenticeship['description'])) !!}
+        </div>
     </div>
 
 </div>

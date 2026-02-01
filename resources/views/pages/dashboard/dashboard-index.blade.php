@@ -6,207 +6,270 @@
 <style>
     body {
         font-size: 14px;
-        background: #f6f7fb;
     }
 
-    /* TOP BAR */
-    .topbar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        padding: 14px 16px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: var(--white-box);
-        z-index: 999;
+    /* HERO */
+    .hero {
+        text-align: center;
+        padding: 24px 16px 10px;
     }
 
-    .topbar .title-text {
-        color: var(--fresh-orange);
-        font-weight: 700;
+    .hero img {
+        width: 64px;
+        margin-bottom: 12px;
+    }
+
+    .hero h1 {
         font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 4px;
+    }
+
+    .hero p {
+        font-size: 14px;
+        color: #6b7280;
+        margin: 0;
+    }
+
+    /* USER CARD */
+    .user-card {
+        background: #fff;
+        border-radius: 18px;
+        padding: 14px 16px;
+        margin: 16px;
         display: flex;
         align-items: center;
-        gap: 6px;
+        justify-content: space-between;
+        box-shadow: 0 10px 25px rgba(0,0,0,.08);
     }
 
-    .topbar a {
-        color: var(--fresh-orange);
+    .user-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
     }
 
-    .content-offset {
-        padding-top: 10px;
-        padding-bottom: 20px;
+    .user-avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: #eaf3ff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        color: var(--blue);
     }
 
-    /* CARD */
-    .card-box {
+    .user-name {
+        font-weight: 600;
+    }
+
+    .user-id {
+        font-size: 13px;
+        color: #6b7280;
+    }
+
+    .notif {
+        position: relative;
+    }
+
+    .notif span {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        background: #f97316;
+        color: #fff;
+        font-size: 11px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* QUICK MENU */
+    .quick-menu {
+        margin: 12px 16px 24px;
+    }
+
+    .quick-item {
         background: #fff;
-        border-radius: 5px;
-        padding: 16px;
-        margin-bottom: 18px;
-        box-shadow: 0 6px 16px rgba(0,0,0,0.05);
-    }
+        border-radius: 18px;
+        padding: 16px 8px;
+        text-align: center;
 
-    .card-box h6 {
-        color: var(--fresh-orange);
-    }
-
-    /* MENU GRID */
-    .menu-grid {
-        display: flex;  
+        display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        gap: 8px;
 
-        text-align: center;
-        padding: 14px 8px;
-        height: 70px; 
-        border-radius: 12px;
-        transition: all .2s;
+        height: 96px;
+        box-shadow: 0 8px 20px rgba(0,0,0,.06);
+        transition: all .2s ease;
     }
 
-    .menu-grid:hover {
-        background: var(--fresh-orange);
-        color: #fff;
+    .quick-item:active {
+        transform: scale(.97);
     }
 
-    .menu-grid i {
-        width: 26px;
-        height: 26px;
-        margin-bottom: 6px;
-        display: block; 
-        color: var(--fresh-orange);
+    .quick-item i {
+        width: 28px;
+        height: 28px;
+        color: var(--blue);
     }
 
-    .menu-grid span {
-        display: block;
+    .quick-item span {
         font-size: 12px;
         font-weight: 500;
+        color: #374151;
+        line-height: 1.2;
     }
 
-    /* USER INFO */
-    .user-info div {
+
+    /* SECTION */
+    .section {
+        margin: 0 16px 16px;
+    }
+
+    .section-header {
         display: flex;
         justify-content: space-between;
-        padding: 6px 0;
-        border-bottom: 1px dashed #eee;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .section-header h5 {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .section-header a {
         font-size: 13px;
+        color: var(--blue);
+        text-decoration: none;
     }
 
-    .user-info div:last-child {
-        border-bottom: none;
-    }
-
-    /* LOGOUT */
-    .btn-logout {
-        background: var(--fresh-orange);
-        color: #fff;
-        border-radius: 12px;
+    /* INFO CARD */
+    .info-card {
+        background: #fff;
+        border-radius: 16px;
         padding: 12px;
-        font-weight: 500;
-        border: none;
+        display: flex;
+        gap: 12px;
+        margin-bottom: 12px;
+        box-shadow: 0 8px 20px rgba(0,0,0,.06);
+    }
+
+    .info-card img {
+        width: 72px;
+        height: 72px;
+        border-radius: 12px;
+        object-fit: cover;
+    }
+
+    .info-title {
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 4px;
+    }
+
+    .info-meta {
+        font-size: 13px;
+        color: #6b7280;
     }
 </style>
 @endsection
 
-@section('header')
-<div class="topbar">
-    <div class="title-text">
-        <span>🔥</span>
-        <span>BERANDA</span>
-    </div>
-
-    <div class="d-flex gap-3 align-items-center">
-        <a href="#"><i data-feather="search"></i></a>
-        <a href="#"><i data-feather="bell"></i></a>
-    </div>
-</div>
-@endsection
-
 @section('content')
-<div class="content-offset container">
 
-    {{-- MENU --}}
-    <div class="card-box">
-        <h6 class="mb-3 fw-bold">Menu</h6>
-
-        <div class="row g-3">
-            <div class="col-4">
-                <a href="{{ route('directory.index') }}" class="menu-grid text-decoration-none text-dark">
-                    <i data-feather="users"></i>
-                    <span>Direktori</span>
-                </a>
-            </div>
-            <div class="col-4">
-                <a href="{{ route('tracer_study.index') }}" class="menu-grid text-decoration-none text-dark">
-                    <i data-feather="activity"></i>
-                    <span>Tracer</span>
-                </a>
-            </div>
-            <div class="col-4">
-                <a href="{{ route('job_vacancy.index') }}" class="menu-grid text-decoration-none text-dark">
-                    <i data-feather="briefcase"></i>
-                    <span>Loker</span>
-                </a>
-            </div>
-            <div class="col-4">
-                <a href="{{ route('apprenticeship.index') }}" class="menu-grid text-decoration-none text-dark">
-                    <i data-feather="briefcase"></i>
-                    <span>Magang</span>
-                </a>
-            </div>
-            <div class="col-4">
-                <a href="{{ route('campus.info.index') }}" class="menu-grid text-decoration-none text-dark">
-                    <i data-feather="book-open"></i>
-                    <span>Kampus</span>
-                </a>
-            </div>
-            <div class="col-4">
-                <a href="{{ route('profile.index') }}" class="menu-grid text-decoration-none text-dark">
-                    <i data-feather="user"></i>
-                    <span>Profil</span>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    {{-- USER INFO --}}
-    <div class="card-box">
-        <h6 class="mb-3 fw-bold">Informasi Akun</h6>
-
-        <div class="user-info">
-            <div>
-                <span>Nama</span>
-                <strong>{{ session('auth.user.name') }}</strong>
-            </div>
-            <div>
-                <span>Email</span>
-                <strong>{{ session('auth.user.email') }}</strong>
-            </div>
-            <div>
-                <span>Role</span>
-                <strong>{{ session('auth.user.role') }}</strong>
-            </div>
-            <div>
-                <span>Status</span>
-                <strong>{{ session('auth.user.status') }}</strong>
-            </div>
-        </div>
-    </div>
-
-    {{-- LOGOUT --}}
-    <div class="card-box">
-        <form action="{{ route('auth.logout') }}" method="POST"
-              onsubmit="return confirm('Apakah Anda yakin ingin logout?')">
-            @csrf
-            <button type="submit" class="btn btn-logout w-100">
-                Logout
-            </button>
-        </form>
-    </div>
-
+{{-- HERO --}}
+<div class="hero">
+    <img src="{{ asset('assets/img/logo.png') }}">
+    <p>Selamat Datang di</p>
+    <h1>Student Career Center</h1>
+    <p>Pusat Karier Mahasiswa</p>
 </div>
+
+{{-- USER CARD --}}
+<div class="user-card">
+    <div class="user-left">
+        <div class="user-avatar">
+            {{ strtoupper(substr(session('auth.user.name'),0,1)) }}
+        </div>
+        <div>
+            <div class="user-name">{{ session('auth.user.name') }}</div>
+            <div class="user-id">{{ session('auth.user.student_id_number') ?? '-' }}</div>
+        </div>
+    </div>
+
+    <div class="notif">
+        <i data-feather="bell"></i>
+        <span>3</span>
+    </div>
+</div>
+
+{{-- QUICK MENU --}}
+<div class="quick-menu">
+    <div class="row g-3">
+        <div class="col-4">
+            <a href="{{ route('profile.index') }}" class="quick-item text-decoration-none text-dark">
+                <i data-feather="user"></i>
+                <span>Profil</span>
+            </a>
+        </div>
+        <div class="col-4">
+            <a href="{{ route('directory.index') }}" class="quick-item text-decoration-none text-dark">
+                <i data-feather="users"></i>
+                <span>Pengguna</span>
+            </a>
+        </div>
+        <div class="col-4">
+            <a href="{{ route('tracer_study.index') }}" class="quick-item text-decoration-none text-dark">
+                <i data-feather="clipboard"></i>
+                <span>Tracer</span>
+            </a>
+        </div>
+        <div class="col-4">
+            <a href="{{ route('dashboard.career_info') }}" class="quick-item text-decoration-none text-dark">
+                <i data-feather="briefcase"></i>
+                <span>Info Karir</span>
+            </a>
+        </div>
+        <div class="col-4">
+            <a href="{{ route('campus.info.index') }}" class="quick-item text-decoration-none text-dark">
+                <i data-feather="book-open"></i>
+                <span>Info Kampus</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+{{-- INFO KAMPUS --}}
+<div class="section">
+    <div class="section-header">
+        <h5>Info Kampus</h5>
+        <a href="#">Lihat Semua</a>
+    </div>
+
+    {{-- Dummy Data --}}
+    <div class="info-card">
+        <img src="https://picsum.photos/200/200?1">
+        <div>
+            <div class="info-title">Seminar Nasional Kewirausahaan</div>
+            <div class="info-meta">15 Juli 2024</div>
+        </div>
+    </div>
+
+    <div class="info-card">
+        <img src="https://picsum.photos/200/200?2">
+        <div>
+            <div class="info-title">Pendaftaran Beasiswa Prestasi</div>
+            <div class="info-meta">12 Juli 2024</div>
+        </div>
+    </div>
+</div>
+
 @endsection

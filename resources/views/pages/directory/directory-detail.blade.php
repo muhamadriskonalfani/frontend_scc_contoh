@@ -6,7 +6,6 @@
 <style>
     body {
         font-size: 14px;
-        background: #f6f7fb;
     }
 
     /* =========================
@@ -18,35 +17,32 @@
         left: 0;
         right: 0;
         height: 56px;
-        background: #ffffff;
+        background: var(--white);
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        z-index: 999;
+        border-bottom: 1px solid var(--border);
     }
 
     .topbar .back-btn {
         position: absolute;
         left: 16px;
-        color: #333;
+        color: var(--text-dark);
     }
 
     .topbar .title {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 600;
-        color: #222;
+        color: var(--text-dark);
     }
 
     /* =========================
        CONTENT
     ========================== */
-    .content-offset {
-        padding-top: 20px;
+    .content-wrapper {
+        padding: 16px;
+        padding-top: 90px;
         padding-bottom: 24px;
-        background: #eef3fb;
-        min-height: 100vh;
-        border-radius: 18px 18px 0 0;
     }
 
     /* =========================
@@ -58,41 +54,52 @@
     }
 
     .profile-header img {
-        width: 90px;
-        height: 90px;
+        width: 88px;
+        height: 88px;
         object-fit: cover;
         border-radius: 50%;
-        box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+        border: 1px solid var(--border);
         margin-bottom: 10px;
+        background: var(--white);
     }
 
     .profile-name {
         font-weight: 600;
-        font-size: 18px;
+        font-size: 16px;
+        color: var(--text-dark);
     }
 
     .profile-badge {
+        margin-top: 6px;
         font-size: 12px;
-        padding: 6px 12px;
-        border-radius: 999px;
+        padding: 4px 10px;
+        border-radius: 20px;
+        background: var(--blue-light);
+        color: var(--blue);
+        display: inline-block;
     }
 
     /* =========================
        CARD
     ========================== */
     .detail-card {
-        border: none;
-        border-radius: 16px;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.06);
-        margin-bottom: 16px;
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        margin-bottom: 14px;
+    }
+
+    .detail-card .card-body {
+        padding: 14px;
     }
 
     .detail-item {
         display: flex;
         justify-content: space-between;
+        gap: 12px;
         padding: 8px 0;
         font-size: 13px;
-        border-bottom: 1px dashed #eee;
+        border-bottom: 1px dashed var(--border);
     }
 
     .detail-item:last-child {
@@ -100,42 +107,53 @@
     }
 
     .detail-label {
-        color: #6c757d;
+        color: var(--text-muted);
+        flex-shrink: 0;
     }
 
     .detail-value {
         font-weight: 500;
+        color: var(--text-dark);
         text-align: right;
     }
 
     /* =========================
        BIO
     ========================== */
+    .bio-title {
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
     .bio-text {
         font-size: 13px;
-        color: #444;
+        color: var(--text-dark);
         line-height: 1.6;
+        margin: 0;
     }
 </style>
 @endsection
 
 @section('header')
 <div class="topbar">
-    <a href="{{ url()->previous() }}" class="back-btn">
+    <a href="{{ route('directory.index') }}" class="back-btn">
         <i data-feather="chevron-left"></i>
     </a>
 
     <div class="title">
         Detail
-        @if ($user['status'] == 'alumni') Alumni
-        @elseif ($user['status'] == 'student') Mahasiswa
+        @if ($user['status'] === 'alumni')
+            Alumni
+        @elseif ($user['status'] === 'student')
+            Mahasiswa
         @endif
     </div>
 </div>
 @endsection
 
 @section('content')
-<div class="content-offset container">
+<div class="content-wrapper">
 
     {{-- PROFILE HEADER --}}
     <div class="profile-header">
@@ -146,13 +164,13 @@
 
         <div class="profile-name">{{ $user['name'] }}</div>
 
-        <span class="badge bg-info profile-badge">
+        <span class="profile-badge">
             {{ ucfirst($user['status']) }}
         </span>
     </div>
 
     {{-- DETAIL INFO --}}
-    <div class="card detail-card">
+    <div class="detail-card">
         <div class="card-body">
 
             <div class="detail-item">
@@ -190,10 +208,10 @@
 
     {{-- BIO --}}
     @if (!empty($user['bio']))
-        <div class="card detail-card">
+        <div class="detail-card">
             <div class="card-body">
-                <strong>Bio</strong>
-                <p class="bio-text mt-2">
+                <div class="bio-title">Bio</div>
+                <p class="bio-text">
                     {{ $user['bio'] }}
                 </p>
             </div>

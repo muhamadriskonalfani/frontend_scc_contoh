@@ -6,84 +6,75 @@
 <style>
     body {
         font-size: 14px;
-        background: #f6f7fb;
     }
 
-    /* TOP BAR */
+    /* =========================
+       HEADER
+    ========================== */
     .topbar {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
-        padding: 14px 16px;
+        height: 56px;
+        background: var(--white);
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        background: var(--white-box);
-        z-index: 999;
+        justify-content: center;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
 
-    .topbar .title-text {
-        color: var(--fresh-orange);
-        font-weight: 700;
+    .topbar .back-btn {
+        position: absolute;
+        left: 16px;
+        color: var(--text-dark);
+    }
+
+    .topbar .title {
         font-size: 18px;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-
-    .topbar a {
-        color: var(--fresh-orange);
+        font-weight: 600;
+        color: var(--text-dark);
     }
 
     .content-offset {
-        padding-top: 10px;
-        padding-bottom: 20px;
+        padding: 65px 0px 0px;
     }
 
-    /* CARD */
-    .card-box {
-        background: #fff;
-        border-radius: 5px;
+    /* =========================
+       CARD
+    ========================== */
+    .form-card {
+        background: var(--white);
+        border-radius: 14px;
         padding: 16px;
-        margin-bottom: 18px;
-        box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+        margin: 16px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.06);
     }
 
-    .card-box h6 {
-        color: var(--fresh-orange);
-    }
-
-    /* USER INFO */
-    .user-info div {
-        display: flex;
-        justify-content: space-between;
-        padding: 6px 0;
-        border-bottom: 1px dashed #eee;
-        font-size: 13px;
-    }
-
-    .user-info div:last-child {
-        border-bottom: none;
-    }
-
-    /* LOGOUT */
-    .btn-logout {
-        background: var(--fresh-orange);
-        color: #fff;
-        border-radius: 12px;
-        padding: 12px;
-        font-weight: 500;
-        border: none;
-    }
-
-    .profile-form-card {
-        background: var(--white-box);
-        border-radius: 12px;
-        padding: 16px;
+    /* =========================
+       PHOTO
+    ========================== */
+    .photo-wrapper {
+        text-align: center;
         margin-bottom: 20px;
     }
 
+    .photo-wrapper img {
+        width: 88px;
+        height: 88px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 1px solid var(--border);
+        margin-bottom: 10px;
+    }
+
+    .photo-wrapper input {
+        font-size: 13px;
+    }
+
+    /* =========================
+       FORM
+    ========================== */
     .form-group {
         margin-bottom: 14px;
     }
@@ -91,62 +82,58 @@
     .form-group label {
         font-size: 12px;
         font-weight: 500;
-        color: #666;
-        margin-bottom: 4px;
+        color: var(--text-muted);
+        margin-bottom: 6px;
         display: block;
     }
 
     .form-group input,
     .form-group textarea {
         width: 100%;
-        border-radius: 8px;
+        padding: 10px 12px;
+        border-radius: 10px;
         border: 1px solid var(--border);
-        padding: 10px;
         font-size: 14px;
+    }
+
+    .form-control:focus {
+        border-color: var(--blue);
+        box-shadow: none;
     }
 
     textarea {
         resize: none;
     }
 
-    .btn-orange {
+    .file-info {
+        font-size: 12px;
+        color: var(--text-muted);
+        margin-top: 6px;
+    }
+
+    /* =========================
+       BUTTON
+    ========================== */
+    .btn-save {
         width: 100%;
-        padding: 12px;
-        border-radius: 8px;
+        height: 44px;
+        border-radius: 10px;
         border: none;
-        background: var(--fresh-orange);
+        background: linear-gradient(90deg, var(--blue), var(--blue-dark));
         color: #fff;
         font-size: 15px;
         font-weight: 500;
-    }
-
-    .preview-img {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        object-fit: cover;
-        margin-bottom: 8px;
-        border: 1px solid var(--border);
-    }
-
-    .file-info {
-        font-size: 12px;
-        color: #777;
+        margin-top: 8px;
     }
 </style>
 @endsection
 
 @section('header')
 <div class="topbar">
-    <div class="title-text">
-        <span>🔥</span>
-        <span>UPDATE PROFILE</span>
-    </div>
-
-    <div class="d-flex gap-3 align-items-center">
-        <a href="#"><i data-feather="search"></i></a>
-        <a href="#"><i data-feather="bell"></i></a>
-    </div>
+    <a href="{{ route('profile.index') }}" class="back-btn">
+        <i data-feather="chevron-left"></i>
+    </a>
+    <div class="title">Update Profil</div>
 </div>
 @endsection
 
@@ -155,24 +142,25 @@
 
     {{-- ALERT --}}
     @if (session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
     @endif
 
     <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
-        <div class="profile-form-card">
+        <div class="form-card">
 
             {{-- FOTO --}}
-            <div class="form-group text-center">
+            <div class="photo-wrapper">
                 <img
                     id="previewImage"
-                    class="preview-img"
                     src="{{ $profile['image']
-                            ? asset('storage/' . $profile['image'])
-                            : asset('assets/img/noimage.jpg') }}"
+                        ? asset('storage/' . $profile['image'])
+                        : asset('assets/img/noimage.jpg') }}"
+                    alt="Foto Profil"
                 >
-                <label class="text-start">Ganti Foto Profil</label>
                 <input type="file" name="image" accept="image/*" onchange="previewImage(this)">
             </div>
 
@@ -180,7 +168,7 @@
             <div class="form-group">
                 <label>No. Telepon</label>
                 <input type="text" name="phone"
-                    value="{{ old('phone', $profile['phone']) }}">
+                       value="{{ old('phone', $profile['phone']) }}">
             </div>
 
             {{-- BIO --}}
@@ -217,7 +205,7 @@
             <div class="form-group">
                 <label>LinkedIn URL</label>
                 <input type="url" name="linkedin_url"
-                    value="{{ old('linkedin_url', $profile['linkedin_url']) }}">
+                       value="{{ old('linkedin_url', $profile['linkedin_url']) }}">
             </div>
 
             {{-- CV --}}
@@ -226,7 +214,7 @@
                 <input type="file" name="cv_file" accept="application/pdf">
 
                 @if (!empty($profile['cv_file']))
-                    <div class="file-info mt-1">
+                    <div class="file-info">
                         CV saat ini:
                         <a href="{{ asset('storage/' . $profile['cv_file']) }}" target="_blank">
                             Lihat CV
@@ -235,12 +223,13 @@
                 @endif
             </div>
 
-            <button type="submit" class="btn btn-light btn-orange w-100">
+            <button type="submit" class="btn-save">
                 Simpan Perubahan
             </button>
+
         </div>
     </form>
-
+    
 </div>
 @endsection
 

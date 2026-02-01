@@ -6,103 +6,123 @@
 <style>
     body {
         font-size: 14px;
-        background: #f6f7fb;
     }
 
-    /* TOP BAR */
+    /* =========================
+        HEADER 
+    ========================== */
     .topbar {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
-        padding: 14px 16px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: var(--white-box);
-        z-index: 999;
-    }
-
-    .topbar .title-text {
-        color: var(--fresh-blue);
-        font-weight: 700;
-        font-size: 18px;
+        height: 56px;
+        background: var(--white);
         display: flex;
         align-items: center;
-        gap: 6px;
+        justify-content: center;
+        border-bottom: 1px solid var(--border);
     }
 
-    .topbar a {
-        color: var(--fresh-blue);
+    .topbar .back-btn {
+        position: absolute;
+        left: 16px;
+        color: var(--text-dark);
     }
 
+    .topbar .action-btn {
+        position: absolute;
+        right: 16px;
+        color: var(--text-dark);
+    }
+
+    .topbar .title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-dark);
+    }
+
+    /* =========================
+       CONTENT
+    ========================== */
     .content-offset {
-        padding-top: 10px;
-        padding-bottom: 20px;
+        padding: 16px;
+        padding-top: 75px;
     }
 
-    /* CARD */
-    .apprenticeship-card {
-        background: #fff;
+    /* =========================
+       LIST ITEM
+    ========================== */
+    .my-apprenticeship-item {
+        background: var(--white);
         border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 6px 16px rgba(0,0,0,0.05);
-        height: 100%;
-        transition: all .2s;
+        padding: 12px;
+        display: flex;
+        gap: 12px;
+        border: 1px solid var(--border);
+        transition: .2s;
         position: relative;
     }
 
-    .apprenticeship-card:hover {
-        transform: translateY(-3px);
+    .my-apprenticeship-item:hover {
+        background: #f9fafb;
     }
 
-    .apprenticeship-image {
-        width: 100%;
-        height: 120px;
+    .item-image {
+        width: 64px;
+        height: 64px;
+        border-radius: 10px;
         object-fit: cover;
         background: #eee;
+        flex-shrink: 0;
     }
 
-    .apprenticeship-body {
-        padding: 12px;
+    .item-body {
+        flex: 1;
+        min-width: 0;
     }
 
-    .apprenticeship-title {
+    .item-title {
         font-size: 14px;
-        font-weight: 700;
-        color: var(--fresh-blue);
-        margin-bottom: 4px;
-    }
-
-    .apprenticeship-company {
-        font-size: 12px;
         font-weight: 600;
-        color: #333;
+        color: var(--text-dark);
+        line-height: 1.3;
+        margin-bottom: 2px;
     }
 
-    .apprenticeship-location {
-        font-size: 11px;
-        color: #777;
+    .item-company {
+        font-size: 12px;
+        color: var(--text-muted);
         margin-bottom: 6px;
     }
 
-    .apprenticeship-date {
+    .item-meta {
         font-size: 11px;
-        color: #999;
-        margin-top: 8px;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 4px;
     }
 
-    /* STATUS BADGE */
+    .item-meta i {
+        width: 12px;
+        height: 12px;
+    }
+
+    /* =========================
+       STATUS BADGE
+    ========================== */
     .status-badge {
         position: absolute;
-        top: 8px;
-        right: 8px;
-        padding: 4px 8px;
+        top: 10px;
+        right: 10px;
         font-size: 10px;
-        border-radius: 12px;
-        color: #fff;
-        text-transform: uppercase;
+        padding: 3px 8px;
+        border-radius: 20px;
         font-weight: 600;
+        text-transform: uppercase;
+        color: #fff;
     }
 
     .status-pending { background: #f0ad4e; }
@@ -114,71 +134,69 @@
 
 @section('header')
 <div class="topbar">
-    <div class="title-text">
-        <span>📋</span>
-        <span>MAGANG SAYA</span>
-    </div>
+    <a href="{{ url()->previous() }}" class="back-btn">
+        <i data-feather="chevron-left"></i>
+    </a>
 
-    <div class="d-flex gap-3 align-items-center">
-        <a href="{{ route('apprenticeship.create') }}"><i data-feather="plus"></i></a>
-        <a href="#"><i data-feather="search"></i></a>
-    </div>
+    <div class="title">Magang Saya</div>
+
+    <a href="{{ route('apprenticeship.create') }}" class="action-btn">
+        <i data-feather="plus"></i>
+    </a>
 </div>
 @endsection
 
 @section('content')
-<div class="content-offset container">
+<div class="content-offset">
 
-    <div class="row g-3">
+    <div class="d-flex flex-column gap-2">
 
         @forelse ($apprenticeships as $item)
-            <div class="col-6">
-                <a href="{{ route('apprenticeship.show', $item['id']) }}"
-                   class="text-decoration-none text-dark">
+            <a href="{{ route('apprenticeship.show', $item['id']) }}"
+               class="text-decoration-none">
 
-                    <div class="apprenticeship-card">
+                <div class="my-apprenticeship-item">
 
-                        {{-- STATUS --}}
-                        <div class="status-badge status-{{ $item['status'] }}">
-                            {{ $item['status'] }}
-                        </div>
-
-                        {{-- IMAGE --}}
-                        @if (!empty($item['image']))
-                            <img src="{{ $item['image'] }}" class="apprenticeship-image">
-                        @else
-                            <div class="apprenticeship-image d-flex align-items-center justify-content-center text-muted">
-                                <small>Tidak ada gambar</small>
-                            </div>
-                        @endif
-
-                        {{-- BODY --}}
-                        <div class="apprenticeship-body">
-                            <div class="apprenticeship-title">
-                                {{ $item['title'] }}
-                            </div>
-
-                            <div class="apprenticeship-company">
-                                {{ $item['company_name'] }}
-                            </div>
-
-                            <div class="apprenticeship-location">
-                                <i data-feather="map-pin" style="width:12px;height:12px;"></i>
-                                {{ $item['location'] }}
-                            </div>
-
-                            <div class="apprenticeship-date">
-                                Dibuat:
-                                {{ \Carbon\Carbon::parse($item['created_at'])->translatedFormat('d M Y') }}
-                            </div>
-                        </div>
-
+                    {{-- STATUS --}}
+                    <div class="status-badge status-{{ $item['status'] }}">
+                        {{ $item['status'] }}
                     </div>
-                </a>
-            </div>
+
+                    {{-- IMAGE --}}
+                    @if (!empty($item['image']))
+                        <img src="{{ $item['image'] }}" class="item-image">
+                    @else
+                        <div class="item-image d-flex align-items-center justify-content-center text-muted">
+                            <i data-feather="image"></i>
+                        </div>
+                    @endif
+
+                    {{-- BODY --}}
+                    <div class="item-body">
+                        <div class="item-title">
+                            {{ $item['title'] }}
+                        </div>
+
+                        <div class="item-company">
+                            {{ $item['company_name'] }}
+                        </div>
+
+                        <div class="item-meta">
+                            <i data-feather="map-pin" style="width: 15px; height: 15px;"></i>
+                            {{ $item['location'] }}
+                        </div>
+
+                        <div class="item-meta">
+                            <i data-feather="clock" style="width: 15px; height: 15px;"></i>
+                            Dibuat {{ \Carbon\Carbon::parse($item['created_at'])->translatedFormat('d M Y') }}
+                        </div>
+                    </div>
+
+                </div>
+            </a>
         @empty
-            <div class="col-12 text-center text-muted mt-4">
-                Anda belum memiliki informasi magang.
+            <div class="text-center text-muted mt-4">
+                Anda belum memiliki data magang.
             </div>
         @endforelse
 

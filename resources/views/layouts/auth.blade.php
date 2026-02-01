@@ -13,18 +13,53 @@
 
     <style>
         :root {
-            --fresh-orange: #ff5722;
-            --white-body: #f5f5f5;
-            --white-box: #fff;
-            --red-notif: #f00;
-            --border: #e6e6e6;
+            --white: #ffffff;
+            --blue-light: #eaf3ff;
+            --blue: #3578c3;
+            --blue-dark: #2b64a8;
+            --border: #e5e7eb;
+            --text-dark: #374151;
+            --text-muted: #6b7280;
         }
 
+        /* CENTER SCREEN */
         body {
-            background: var(--white-box);
-            padding-top: 60px;
-            padding-bottom: 65px;
-            color: #333;
+            margin: 0;
+            min-height: 100vh;
+            background: #eaeaea;
+            display: flex;
+            justify-content: center;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        /* MOBILE CANVAS */
+        .mobile-wrapper {
+            width: 360px;
+            min-height: 100vh;
+            background: linear-gradient(
+                180deg,
+                #ffffff 0%,
+                var(--blue-light) 100%
+            );
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,.15);
+        }
+
+        /* CONTENT */
+        .mobile-content {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        /* RESPONSIVE REAL HP */
+        @media (max-width: 420px) {
+            body {
+                justify-content: flex-start;
+            }
+
+            .mobile-wrapper {
+                width: 100%;
+                box-shadow: none;
+            }
         }
     </style>
 
@@ -33,19 +68,23 @@
 </head>
 <body>
 
-    {{-- HEADER --}}
-    <div class="p-0">
-        @yield('header')
-    </div>
+    <div class="mobile-wrapper">
 
-    {{-- CONTENT --}}
-    <div class="p-0">
-        @yield('content')
-    </div>
+        {{-- HEADER --}}
+        @hasSection('header')
+            @yield('header')
+        @endif
 
-    {{-- FOOTER --}}
-    <div class="p-0">
-        @yield('footer')
+        {{-- CONTENT --}}
+        <main class="mobile-content">
+            @yield('content')
+        </main>
+
+        {{-- FOOTER --}}
+        @hasSection('footer')
+            @yield('footer')
+        @endif
+
     </div>
 
     <script>

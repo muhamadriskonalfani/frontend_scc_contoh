@@ -6,11 +6,10 @@
 <style>
     body {
         font-size: 14px;
-        background: #f6f7fb;
     }
 
     /* =========================
-       TOP BAR (HEADER)
+       HEADER
     ========================== */
     .topbar {
         position: fixed;
@@ -18,93 +17,95 @@
         left: 0;
         right: 0;
         height: 56px;
-        background: #ffffff;
+        background: var(--white);
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        z-index: 999;
+        border-bottom: 1px solid var(--border);
     }
 
     .topbar .back-btn {
         position: absolute;
         left: 16px;
-        color: #333;
+        color: var(--text-dark);
     }
 
     .topbar .title {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 600;
-        color: #222;
+        color: var(--text-dark);
     }
 
     /* =========================
-       CONTENT WRAPPER
+       CONTENT
     ========================== */
-    .content-offset {
-        padding-top: 20px;
-        padding-bottom: 24px;
-        background: #eef3fb;
-        min-height: 100vh;
-        border-radius: 18px 18px 0 0;
+    .content-wrapper {
+        padding: 65px 16px 40px;
     }
 
     /* =========================
        FILTER
     ========================== */
     .filter-select {
-        border-radius: 999px;
         font-size: 13px;
-        padding: 8px 12px;
-    }
-
-    .btn-apply,
-    .btn-reset {
-        border-radius: 999px;
-        font-weight: 500;
-        padding: 8px;
+        padding: 8px 10px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
     }
 
     .btn-apply {
-        background: #ff7a00;
+        background: var(--blue);
         color: #fff;
+        border-radius: 8px;
         border: none;
+        font-size: 13px;
+        font-weight: 500;
     }
 
     .btn-reset {
-        background: #eaeaea;
-        color: #333;
+        background: #f1f5f9;
+        color: var(--text-dark);
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 500;
     }
 
     /* =========================
        USER CARD
     ========================== */
     .user-card {
-        border: none;
-        border-radius: 16px;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.06);
-        margin-bottom: 16px;
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px;
+        margin-bottom: 12px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
     }
 
     .user-card img {
-        width: 52px;
-        height: 52px;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
         object-fit: cover;
     }
 
     .user-name {
+        font-size: 14px;
         font-weight: 600;
-        font-size: 15px;
+        color: var(--text-dark);
     }
 
     .user-meta {
-        font-size: 13px;
-        color: #6c757d;
+        font-size: 12px;
+        color: var(--text-muted);
+        margin-top: 2px;
     }
 
     .user-job {
-        font-size: 13px;
-        color: #6c757d;
+        font-size: 12px;
+        color: var(--text-muted);
         margin-top: 2px;
     }
 
@@ -113,7 +114,8 @@
     ========================== */
     .empty-state {
         margin-top: 60px;
-        color: #999;
+        font-size: 13px;
+        color: var(--text-muted);
         text-align: center;
     }
 </style>
@@ -129,13 +131,13 @@
 @endsection
 
 @section('content')
-<div class="content-offset container">
+<div class="content-wrapper">
 
     {{-- FILTER --}}
-    <form method="GET" class="mb-4">
+    <form method="GET" class="mb-3">
         <div class="row g-2">
 
-            <div class="col-4">
+            <div class="col-6">
                 <select name="type" class="form-control filter-select">
                     <option value="">Tipe</option>
                     <option value="student" {{ ($filters['type'] ?? '') == 'student' ? 'selected' : '' }}>
@@ -147,7 +149,7 @@
                 </select>
             </div>
 
-            <div class="col-4">
+            <div class="col-6">
                 <select name="faculty_id" class="form-control filter-select">
                     <option value="">Fakultas</option>
                     @foreach ($faculties as $faculty)
@@ -159,7 +161,7 @@
                 </select>
             </div>
 
-            <div class="col-4">
+            <div class="col-6">
                 <select name="study_program_id" class="form-control filter-select">
                     <option value="">Prodi</option>
                     @foreach ($studyPrograms as $prodi)
@@ -171,7 +173,7 @@
                 </select>
             </div>
 
-            <div class="col-4">
+            <div class="col-6">
                 <select name="entry_year" class="form-control filter-select">
                     <option value="">Angkatan</option>
                     @for ($year = now()->year; $year >= 2016; $year--)
@@ -183,16 +185,12 @@
                 </select>
             </div>
 
-            <div class="col-4">
-                <button class="btn btn-apply w-100">
-                    Terapkan
-                </button>
+            <div class="col-6">
+                <button class="btn btn-apply w-100">Terapkan</button>
             </div>
 
-            <div class="col-4">
-                <a href="{{ route('directory.index') }}" class="btn btn-reset w-100">
-                    Reset
-                </a>
+            <div class="col-6">
+                <a href="{{ route('directory.index') }}" class="btn btn-reset w-100">Reset</a>
             </div>
 
         </div>
@@ -200,29 +198,26 @@
 
     {{-- USER LIST --}}
     @forelse ($users as $user)
-        <a href="{{ route('directory.show', $user['id']) }}" class="text-decoration-none text-dark">
-            <div class="card user-card">
-                <div class="card-body d-flex gap-3 align-items-center">
+        <a href="{{ route('directory.show', $user['id']) }}"
+           class="text-decoration-none">
 
-                    <img
-                        src="{{ $user['photo'] ?: asset('assets/img/profile_male.png') }}"
-                        onerror="this.onerror=null;this.src='{{ asset('assets/img/profile_male.png') }}';"
-                        class="rounded-circle"
-                        alt="Foto Profil">
+            <div class="user-card">
+                <img
+                    src="{{ $user['photo'] ?: asset('assets/img/profile_male.png') }}"
+                    onerror="this.onerror=null;this.src='{{ asset('assets/img/profile_male.png') }}';"
+                    alt="Foto Profil">
 
-                    <div class="grow">
-                        <div class="user-name">{{ $user['name'] }}</div>
-                        <div class="user-meta">
-                            {{ $user['study_program'] }} · Angkatan {{ $user['entry_year'] }}
-                        </div>
-
-                        @if (!empty($user['job_title']))
-                            <div class="user-job">
-                                💼 {{ $user['job_title'] }}
-                            </div>
-                        @endif
+                <div>
+                    <div class="user-name">{{ $user['name'] }}</div>
+                    <div class="user-meta">
+                        {{ $user['study_program'] }} · Angkatan {{ $user['entry_year'] }}
                     </div>
 
+                    @if (!empty($user['job_title']))
+                        <div class="user-job">
+                            💼 {{ $user['job_title'] }}
+                        </div>
+                    @endif
                 </div>
             </div>
         </a>

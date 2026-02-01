@@ -96,7 +96,7 @@ class AuthController extends Controller
             ]
         ]);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard.index');
     }
 
     public function logout()

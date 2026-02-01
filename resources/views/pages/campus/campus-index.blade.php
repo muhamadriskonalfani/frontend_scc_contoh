@@ -6,156 +6,166 @@
 <style>
     body {
         font-size: 14px;
-        background: #f6f7fb;
     }
 
-    /* TOP BAR */
+    /* =========================
+        HEADER 
+    ========================== */
     .topbar {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
-        padding: 14px 16px;
+        height: 56px;
+        background: var(--white);
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        background: var(--white-box);
+        justify-content: center;
+        border-bottom: 1px solid var(--border);
         z-index: 999;
     }
 
-    .topbar .title-text {
-        color: var(--fresh-orange);
-        font-weight: 700;
-        font-size: 18px;
+    .topbar .back-btn {
+        position: absolute;
+        left: 16px;
+        color: var(--text-dark);
+    }
+
+    .topbar .title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-dark);
+    }
+
+    .topbar .action-btn {
+        position: absolute;
+        right: 16px;
+        color: var(--text-dark);
+    }
+
+    /* =========================
+       CONTENT
+    ========================== */
+    .content-offset {
+        padding: 16px;
+        padding-top: 75px;
+    }
+
+    /* =========================
+       LIST ITEM
+    ========================== */
+    .campus-item {
+        background: var(--white);
+        border-radius: 12px;
+        padding: 12px;
+        display: flex;
+        gap: 12px;
+        border: 1px solid var(--border);
+        transition: .2s;
+    }
+
+    .campus-item:hover {
+        background: #f9fafb;
+    }
+
+    .item-image {
+        width: 64px;
+        height: 64px;
+        border-radius: 10px;
+        object-fit: cover;
+        background: #eee;
+        flex-shrink: 0;
+    }
+
+    .item-body {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .item-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-dark);
+        line-height: 1.3;
+        margin-bottom: 4px;
+    }
+
+    .item-excerpt {
+        font-size: 12px;
+        color: var(--text-muted);
+        line-height: 1.4;
+        margin-bottom: 6px;
+    }
+
+    .item-meta {
+        font-size: 11px;
+        color: var(--text-muted);
         display: flex;
         align-items: center;
         gap: 6px;
     }
 
-    .topbar a {
-        color: var(--fresh-orange);
+    .item-meta i {
+        width: 12px;
+        height: 12px;
     }
-
-    .content-offset {
-        padding-top: 10px;
-        padding-bottom: 20px;
-    }
-
-    /* CARD */
-    .card-box {
-        background: #fff;
-        border-radius: 5px;
-        padding: 16px;
-        margin-bottom: 18px;
-        box-shadow: 0 6px 16px rgba(0,0,0,0.05);
-    }
-
-    .card-box h6 {
-        color: var(--fresh-orange);
-    }
-
-    /* CARD INFO CAMPUS */
-    .campus-card {
-        background: #fff;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 6px 16px rgba(0,0,0,0.05);
-        height: 100%;
-        transition: all .2s;
-    }
-
-    .campus-card:hover {
-        transform: translateY(-3px);
-    }
-
-    .campus-image {
-        width: 100%;
-        height: 120px;
-        object-fit: cover;
-        background: #eee;
-    }
-
-    .campus-body {
-        padding: 12px;
-    }
-
-    .campus-title {
-        font-size: 14px;
-        font-weight: 700;
-        color: var(--fresh-orange);
-        margin-bottom: 6px;
-    }
-
-    .campus-excerpt {
-        font-size: 12px;
-        color: #555;
-        line-height: 1.4;
-    }
-
-    .campus-date {
-        font-size: 11px;
-        color: #999;
-        margin-top: 8px;
-    }
-
 </style>
 @endsection
 
 @section('header')
 <div class="topbar">
-    <div class="title-text">
-        <span>🔥</span>
-        <span>INFO KAMPUS</span>
-    </div>
+    <a href="{{ url()->previous() }}" class="back-btn">
+        <i data-feather="chevron-left"></i>
+    </a>
 
-    <div class="d-flex gap-3 align-items-center">
-        <a href="#"><i data-feather="search"></i></a>
-        <a href="#"><i data-feather="bell"></i></a>
-    </div>
+    <div class="title">Info Kampus</div>
+
+    <a href="#" class="action-btn">
+        <i data-feather="search"></i>
+    </a>
 </div>
 @endsection
 
 @section('content')
-<div class="content-offset container">
+<div class="content-offset">
 
-    <div class="row g-3">
+    <div class="d-flex flex-column gap-2">
 
         @forelse ($informations as $info)
-            <div class="col-6">
-                <a href="{{ route('campus.info.show', $info['id']) }}"
-                   class="text-decoration-none text-dark">
+            <a href="{{ route('campus.info.show', $info['id']) }}"
+               class="text-decoration-none">
 
-                    <div class="campus-card">
-                        
-                        {{-- IMAGE --}}
-                        @if (!empty($info['image']))
-                            <img src="{{ $info['image'] }}" class="campus-image">
-                        @else
-                            <div class="campus-image d-flex align-items-center justify-content-center text-muted">
-                                <small>Tidak ada gambar</small>
-                            </div>
-                        @endif
+                <div class="campus-item">
 
-                        {{-- BODY --}}
-                        <div class="campus-body">
-                            <div class="campus-title">
-                                {{ $info['title'] }}
-                            </div>
+                    {{-- IMAGE --}}
+                    @if (!empty($info['image']))
+                        <img src="{{ $info['image'] }}" class="item-image">
+                    @else
+                        <div class="item-image d-flex align-items-center justify-content-center text-muted">
+                            <i data-feather="image"></i>
+                        </div>
+                    @endif
 
-                            <div class="campus-excerpt">
-                                {{ $info['excerpt'] }}
-                            </div>
-
-                            <div class="campus-date">
-                                {{ $info['created_at'] }}
-                            </div>
+                    {{-- BODY --}}
+                    <div class="item-body">
+                        <div class="item-title">
+                            {{ $info['title'] }}
                         </div>
 
+                        <div class="item-excerpt">
+                            {{ $info['excerpt'] }}
+                        </div>
+
+                        <div class="item-meta">
+                            <i data-feather="clock" style="width: 15px; height: 15px;"></i>
+                            {{ \Carbon\Carbon::parse($info['created_at'])->translatedFormat('d M Y') }}
+                        </div>
                     </div>
-                </a>
-            </div>
+
+                </div>
+            </a>
         @empty
-            <div class="col-12 text-center text-muted">
+            <div class="text-center text-muted mt-4">
                 Tidak ada informasi kampus.
             </div>
         @endforelse

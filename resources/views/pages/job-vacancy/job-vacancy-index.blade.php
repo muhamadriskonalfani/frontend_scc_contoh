@@ -6,158 +6,197 @@
 <style>
     body {
         font-size: 14px;
-        background: #f6f7fb;
     }
 
-    /* TOP BAR */
+    /* =========================
+        HEADER 
+    ========================== */
     .topbar {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
-        padding: 14px 16px;
+        height: 56px;
+        background: var(--white);
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        background: var(--white-box);
-        z-index: 999;
+        justify-content: center;
         border-bottom: 1px solid var(--border);
     }
 
-    .topbar .title-text {
-        color: var(--fresh-blue);
-        font-weight: 700;
-        font-size: 18px;
+    .topbar .back-btn {
+        position: absolute;
+        left: 16px;
+        color: var(--text-dark);
+    }
+
+    .topbar .title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-dark);
+    }
+
+    /* =========================
+       CONTENT
+    ========================== */
+    .content-offset {
+        padding: 16px;
+        padding-top: 75px;
+    }
+
+    /* =========================
+       FILTER
+    ========================== */
+    .filter-box {
+        background: var(--white);
+        border-radius: 10px;
+        padding: 10px 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid var(--border);
+    }
+
+    .filter-box input {
+        border: none;
+        outline: none;
+        font-size: 13px;
+        width: 100%;
+        color: var(--text-dark);
+    }
+
+    .filter-box i {
+        width: 16px;
+        height: 16px;
+        color: var(--text-muted);
+    }
+
+    /* =========================
+       LIST ITEM
+    ========================== */
+    .career-item {
+        background: var(--white);
+        border-radius: 12px;
+        padding: 12px;
+        display: flex;
+        gap: 12px;
+        border: 1px solid var(--border);
+        transition: .2s;
+    }
+
+    .career-item:hover {
+        background: #f9fafb;
+    }
+
+    .item-image {
+        width: 64px;
+        height: 64px;
+        border-radius: 10px;
+        object-fit: cover;
+        background: #eee;
+        flex-shrink: 0;
+    }
+
+    .item-body {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .item-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-dark);
+        line-height: 1.3;
+        margin-bottom: 2px;
+    }
+
+    .item-company {
+        font-size: 12px;
+        color: var(--text-muted);
+        margin-bottom: 6px;
+    }
+
+    .item-meta {
+        font-size: 11px;
+        color: var(--text-muted);
         display: flex;
         align-items: center;
         gap: 6px;
-    }
-
-    .topbar a {
-        color: var(--fresh-blue);
-    }
-
-    .content-offset {
-        padding-top: 10px;
-        padding-bottom: 20px;
-    }
-
-    /* CARD */
-    .career-card {
-        background: #fff;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 6px 16px rgba(0,0,0,0.05);
-        height: 100%;
-        transition: all .2s;
-    }
-
-    .career-card:hover {
-        transform: translateY(-3px);
-    }
-
-    .career-image {
-        width: 100%;
-        height: 120px;
-        object-fit: cover;
-        background: #eee;
-    }
-
-    .career-body {
-        padding: 12px;
-    }
-
-    .career-title {
-        font-size: 14px;
-        font-weight: 700;
-        color: var(--fresh-blue);
         margin-bottom: 4px;
-        line-height: 1.3;
-    }
-
-    .career-company {
-        font-size: 12px;
-        font-weight: 600;
-        color: #333;
-    }
-
-    .career-location {
-        font-size: 11px;
-        color: #777;
-        margin-bottom: 6px;
-        display: flex;
-        align-items: center;
-        gap: 4px;
-    }
-
-    .career-date {
-        font-size: 11px;
-        color: #999;
-        margin-top: 8px;
     }
 </style>
 @endsection
 
 @section('header')
 <div class="topbar">
-    <div class="title-text">
-        <span>💼</span>
-        <span>INFO LOWONGAN</span>
-    </div>
-
-    <div class="d-flex gap-3 align-items-center">
-        <a href="#"><i data-feather="search"></i></a>
-        <a href="#"><i data-feather="briefcase"></i></a>
-    </div>
+    <a href="{{ url()->previous() }}" class="back-btn">
+        <i data-feather="chevron-left"></i>
+    </a>
+    <div class="title">Info Lowongan</div>
 </div>
 @endsection
 
 @section('content')
-<div class="content-offset container">
+<div class="content-offset">
 
-    <div class="row g-3">
+    {{-- FILTER --}}
+    <div class="mb-3">
+        <div class="filter-box">
+            <i data-feather="calendar"></i>
+            <input type="text" placeholder="Filter Tanggal">
+        </div>
+    </div>
+
+    {{-- LIST --}}
+    <div class="d-flex flex-column gap-2">
 
         @forelse ($jobVacancies as $item)
-            <div class="col-6">
-                <a href="{{ route('job_vacancy.show', $item['id']) }}"
-                   class="text-decoration-none text-dark">
+            <a href="{{ route('job_vacancy.show', $item['id']) }}"
+               class="text-decoration-none">
 
-                    <div class="career-card">
+                <div class="career-item">
 
-                        {{-- IMAGE --}}
-                        @if (!empty($item['image']))
-                            <img src="{{ $item['image'] }}" class="career-image">
-                        @else
-                            <div class="career-image d-flex align-items-center justify-content-center text-muted">
-                                <small>Tidak ada gambar</small>
-                            </div>
-                        @endif
+                    {{-- IMAGE --}}
+                    @if (!empty($item['image']))
+                        <img src="{{ $item['image'] }}" class="item-image">
+                    @else
+                        <div class="item-image d-flex align-items-center justify-content-center text-muted">
+                            <i data-feather="image"></i>
+                        </div>
+                    @endif
 
-                        {{-- BODY --}}
-                        <div class="career-body">
-                            <div class="career-title">
-                                {{ $item['title'] }}
-                            </div>
-
-                            <div class="career-company">
-                                {{ $item['company_name'] }}
-                            </div>
-
-                            <div class="career-location">
-                                <i data-feather="map-pin" style="width:12px;height:12px;"></i>
-                                {{ $item['location'] }}
-                            </div>
-
-                            <div class="career-date">
-                                {{ \Carbon\Carbon::parse($item['created_at'])->translatedFormat('d M Y') }}
-                            </div>
+                    {{-- BODY --}}
+                    <div class="item-body">
+                        <div class="item-title">
+                            {{ $item['title'] }}
                         </div>
 
+                        <div class="item-company">
+                            {{ $item['company_name'] }}
+                        </div>
+
+                        <div class="item-meta">
+                            <i data-feather="map-pin" style="width: 15px; height: 15px;"></i>
+                            {{ $item['location'] }}
+                        </div>
+
+                        <div class="item-meta">
+                            <i data-feather="clock" style="width: 15px; height: 15px;"></i>
+                            {{ \Carbon\Carbon::parse($item['created_at'])->translatedFormat('d M Y') }}
+                        </div>
+
+                        @if(!empty($item['expired_at']))
+                            <div class="item-meta">
+                                <i data-feather="alert-circle" style="width: 15px; height: 15px;"></i>
+                                Berakhir {{ \Carbon\Carbon::parse($item['expired_at'])->translatedFormat('d M Y') }}
+                            </div>
+                        @endif
                     </div>
-                </a>
-            </div>
+
+                </div>
+            </a>
         @empty
-            <div class="col-12 text-center text-muted mt-4">
+            <div class="text-center text-muted mt-4">
                 Belum ada informasi lowongan.
             </div>
         @endforelse

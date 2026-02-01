@@ -6,160 +6,198 @@
 <style>
     body {
         font-size: 14px;
-        background: #f6f7fb;
     }
 
-    /* TOP BAR */
+    /* =========================
+        HEADER 
+    ========================== */
     .topbar {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
-        padding: 14px 16px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: var(--white-box);
-        z-index: 999;
-    }
-
-    .topbar .title-text {
-        color: var(--fresh-orange);
-        font-weight: 700;
-        font-size: 18px;
+        height: 56px;
+        background: var(--white);
         display: flex;
         align-items: center;
-        gap: 6px;
+        justify-content: center;
+        border-bottom: 1px solid var(--border);
     }
 
-    .topbar a {
-        color: var(--fresh-orange);
+    .topbar .title {
+        font-size: 17px;
+        font-weight: 600;
+        color: var(--text-dark);
     }
 
-    .content-offset {
-        padding-top: 10px;
-        padding-bottom: 20px;
+    .topbar .back-btn {
+        position: absolute;
+        left: 16px;
+        color: var(--text-dark);
+    }
+
+    /* =========================
+        CONTENT
+    ========================== */
+    .content-wrapper {
+        padding: 16px;
+        padding-top: 75px;
     }
 
     /* CARD */
     .card-box {
-        background: #fff;
-        border-radius: 5px;
-        padding: 16px;
-        margin-bottom: 18px;
-        box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+        background: var(--white);
+        border-radius: 8px;
+        padding: 14px;
+        margin-bottom: 14px;
+        border: 1px solid var(--border);
     }
 
-    .card-box h6 {
-        color: var(--fresh-orange);
+    .card-title {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: var(--text-dark);
     }
 
-    /* USER INFO */
-    .user-info div {
+    /* INFO LIST */
+    .info-list {
         display: flex;
-        justify-content: space-between;
-        padding: 6px 0;
-        border-bottom: 1px dashed #eee;
+        flex-direction: column;
+        gap: 10px;
         font-size: 13px;
     }
 
-    .user-info div:last-child {
-        border-bottom: none;
+    .info-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        padding-bottom: 8px;
+        border-bottom: 1px dashed var(--border);
     }
 
-    /* LOGOUT */
-    .btn-logout {
-        background: var(--fresh-orange);
-        color: #fff;
-        border-radius: 12px;
-        padding: 12px;
+    .info-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .info-label {
+        color: var(--text-muted);
+        max-width: 45%;
+    }
+
+    .info-value {
         font-weight: 500;
+        color: var(--text-dark);
+        text-align: right;
+    }
+
+    /* BUTTON */
+    .btn-update {
+        width: 100%;
+        height: 44px;
+        border-radius: 8px;
         border: none;
+        background: linear-gradient(90deg, var(--blue), var(--blue-dark));
+        color: #fff;
+        font-weight: 500;
+        font-size: 14px;
     }
 </style>
 @endsection
 
 @section('header')
 <div class="topbar">
-    <div class="title-text">
-        <span>🔥</span>
-        <span>TRACER STUDY</span>
-    </div>
-
-    <div class="d-flex gap-3 align-items-center">
-        <a href="#"><i data-feather="search"></i></a>
-        <a href="#"><i data-feather="bell"></i></a>
-    </div>
+    <a href="{{ url()->previous() }}" class="back-btn">
+        <i data-feather="chevron-left"></i>
+    </a>
+    <div class="title">Tracer Study</div>
 </div>
 @endsection
 
 @section('content')
-<div class="content-offset container">
+<div class="content-wrapper">
 
-    {{-- USER INFO --}}
+    {{-- CARD DATA TRACER --}}
     <div class="card-box">
-        <h6 class="mb-3 fw-bold">Tracer Study Anda</h6>
+        <div class="card-title">Data Tracer Study Anda</div>
 
-        <div class="user-info">
-            <div>
-                <span>User ID</span>
-                <strong>{{ data_get($tracerStudy, 'user_id', '-') }}</strong>
+        <div class="info-list">
+
+            <div class="info-item">
+                <div class="info-label">User ID</div>
+                <div class="info-value">{{ data_get($tracerStudy, 'user_id', '-') }}</div>
             </div>
-            <div>
-                <span>Nama Lengkap</span>
-                <strong>{{ data_get($tracerStudy, 'full_name', '-') }}</strong>
+
+            <div class="info-item">
+                <div class="info-label">Nama Lengkap</div>
+                <div class="info-value">{{ data_get($tracerStudy, 'full_name', '-') }}</div>
             </div>
-            <div>
-                <span>Nomor Induk Mahasiswa</span>
-                <strong>{{ data_get($tracerStudy, 'student_id_number', '-') }}</strong>
+
+            <div class="info-item">
+                <div class="info-label">NIM</div>
+                <div class="info-value">{{ data_get($tracerStudy, 'student_id_number', '-') }}</div>
             </div>
-            <div>
-                <span>Fakultas</span>
-                <strong>{{ data_get($tracerStudy, 'faculty.name', '-') }}</strong>
+
+            <div class="info-item">
+                <div class="info-label">Fakultas</div>
+                <div class="info-value">{{ data_get($tracerStudy, 'faculty.name', '-') }}</div>
             </div>
-            <div>
-                <span>Program Studi</span>
-                <strong>{{ data_get($tracerStudy, 'study_program.name', '-') }}</strong>
+
+            <div class="info-item">
+                <div class="info-label">Program Studi</div>
+                <div class="info-value">{{ data_get($tracerStudy, 'study_program.name', '-') }}</div>
             </div>
-            <div>
-                <span>Tahun Masuk</span>
-                <strong>{{ data_get($tracerStudy, 'entry_year', '-') }}</strong>
+
+            <div class="info-item">
+                <div class="info-label">Tahun Masuk</div>
+                <div class="info-value">{{ data_get($tracerStudy, 'entry_year', '-') }}</div>
             </div>
-            <div>
-                <span>Tahun Lulus</span>
-                <strong>{{ data_get($tracerStudy, 'graduation_year', '-') }}</strong>
+
+            <div class="info-item">
+                <div class="info-label">Tahun Lulus</div>
+                <div class="info-value">{{ data_get($tracerStudy, 'graduation_year', '-') }}</div>
             </div>
-            <div>
-                <span>Domisili</span>
-                <strong>{{ data_get($tracerStudy, 'domicile', '-') }}</strong>
+
+            <div class="info-item">
+                <div class="info-label">Domisili</div>
+                <div class="info-value">{{ data_get($tracerStudy, 'domicile', '-') }}</div>
             </div>
-            <div>
-                <span>Nomor WhatsApp</span>
-                <strong>{{ data_get($tracerStudy, 'whatsapp_number', '-') }}</strong>
+
+            <div class="info-item">
+                <div class="info-label">WhatsApp</div>
+                <div class="info-value">{{ data_get($tracerStudy, 'whatsapp_number', '-') }}</div>
             </div>
-            <div>
-                <span>Tempat Bekerja</span>
-                <strong>{{ data_get($tracerStudy, 'current_workplace', '-') }}</strong>
+
+            <div class="info-item">
+                <div class="info-label">Tempat Bekerja</div>
+                <div class="info-value">{{ data_get($tracerStudy, 'current_workplace', '-') }}</div>
             </div>
-            <div>
-                <span>Lama Bekerja</span>
-                <strong>{{ data_get($tracerStudy, 'current_job_duration_months', '-') }}</strong>
+
+            <div class="info-item">
+                <div class="info-label">Lama Bekerja</div>
+                <div class="info-value">
+                    {{ data_get($tracerStudy, 'current_job_duration_months', '-') }} bulan
+                </div>
             </div>
-            <div>
-                <span>Skala Perusahaan</span>
-                <strong>{{ data_get($tracerStudy, 'company_scale', '-') }}</strong>
+
+            <div class="info-item">
+                <div class="info-label">Skala Perusahaan</div>
+                <div class="info-value">{{ data_get($tracerStudy, 'company_scale', '-') }}</div>
             </div>
-            <div>
-                <span>Jabatan</span>
-                <strong>{{ data_get($tracerStudy, 'job_title', '-') }}</strong>
+
+            <div class="info-item">
+                <div class="info-label">Jabatan</div>
+                <div class="info-value">{{ data_get($tracerStudy, 'job_title', '-') }}</div>
             </div>
+
         </div>
     </div>
 
-    {{-- LOGOUT --}}
-    <div class="card-box">
-        <a href="{{ route('tracer_study.update') }}" class="btn btn-logout w-100">
-            Lengkapi Data
+    {{-- ACTION --}}
+    <div class="card-box p-0">
+        <a href="{{ route('tracer_study.update') }}" class="btn btn-primary w-100 py-2">
+            Lengkapi / Perbarui Data
         </a>
     </div>
 

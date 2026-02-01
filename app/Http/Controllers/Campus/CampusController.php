@@ -23,7 +23,7 @@ class CampusController extends Controller
 
         if ($response->failed()) {
             return redirect()
-                ->route('dashboard')
+                ->route('dashboard.index')
                 ->with('error', 'Gagal memuat informasi kampus.');
         }
 
@@ -46,13 +46,13 @@ class CampusController extends Controller
 
         if ($response->status() === 404) {
             return redirect()
-                ->route('dashboard')
+                ->route('dashboard.index')
                 ->with('error', 'Informasi kampus tidak ditemukan.');
         }
 
         if ($response->failed()) {
             return redirect()
-                ->route('dashboard')
+                ->route('dashboard.index')
                 ->with('error', 'Gagal memuat detail informasi kampus.');
         }
 

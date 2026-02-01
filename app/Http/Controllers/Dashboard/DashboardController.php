@@ -11,4 +11,9 @@ class DashboardController extends Controller
     {
         return view('pages.dashboard.dashboard-index');
     }
+
+    public function careerInfo()
+    {
+        return view('pages.dashboard.dashboard-career-info');
+    }
 }

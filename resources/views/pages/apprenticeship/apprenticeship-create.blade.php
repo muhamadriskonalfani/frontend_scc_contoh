@@ -6,46 +6,49 @@
 <style>
     body {
         font-size: 14px;
-        background: #f6f7fb;
     }
 
+    /* =========================
+        HEADER 
+    ========================== */
     .topbar {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
-        padding: 14px 16px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: var(--white-box);
-        z-index: 999;
-    }
-
-    .topbar .title-text {
-        color: var(--fresh-orange);
-        font-weight: 700;
-        font-size: 18px;
+        height: 56px;
+        background: var(--white);
         display: flex;
         align-items: center;
-        gap: 6px;
+        justify-content: center;
+        border-bottom: 1px solid var(--border);
     }
 
-    .topbar a {
-        color: var(--fresh-orange);
+    .topbar .back-btn {
+        position: absolute;
+        left: 16px;
+        color: var(--text-dark);
     }
 
+    .topbar .title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-dark);
+    }
+
+    /* =========================
+       CONTENT
+    ========================== */
     .content-offset {
-        padding-top: 10px;
-        padding-bottom: 20px;
+        padding: 16px;
+        padding-top: 75px;
     }
 
+    /* =========================
+       FORM CARD
+    ========================== */
     .profile-form-card {
-        background: var(--white-box);
-        border-radius: 12px;
-        padding: 16px;
-        margin-bottom: 20px;
-        box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+        padding: 10px 15px;
     }
 
     .form-group {
@@ -53,19 +56,19 @@
     }
 
     .form-group label {
-        font-size: 12px;
-        font-weight: 500;
-        color: #666;
-        margin-bottom: 4px;
+        font-size: 14px;
+        margin-bottom: 6px;
         display: block;
+        color: #444;
     }
 
     .form-group input,
     .form-group textarea {
         width: 100%;
+        padding: 12px;
         border-radius: 8px;
         border: 1px solid var(--border);
-        padding: 10px;
+        margin-bottom: 16px;
         font-size: 14px;
     }
 
@@ -78,7 +81,7 @@
         padding: 12px;
         border-radius: 8px;
         border: none;
-        background: var(--fresh-orange);
+        background: var(--blue);
         color: #fff;
         font-size: 15px;
         font-weight: 500;
@@ -88,10 +91,10 @@
 
 @section('header')
 <div class="topbar">
-    <div class="title-text">
-        <span>🔥</span>
-        <span>TAMBAH MAGANG</span>
-    </div>
+    <a href="{{ route('apprenticeship.index') }}" class="back-btn">
+        <i data-feather="chevron-left"></i>
+    </a>
+    <div class="title">Tambah Info Magang</div>
 </div>
 @endsection
 
@@ -137,7 +140,7 @@
                 <input type="date" name="expired_at" value="{{ old('expired_at') }}">
             </div>
 
-            <button type="submit" class="btn-orange">
+            <button type="submit" class="btn btn-primary w-100 mt-4">
                 Simpan Informasi Magang
             </button>
         </div>
