@@ -129,7 +129,7 @@
 
 @section('header')
 <div class="topbar">
-    <a href="{{ url()->previous() }}" class="back-btn">
+    <a href="{{ route('dashboard.career_info') }}" class="back-btn">
         <i data-feather="chevron-left"></i>
     </a>
     <div class="title">Info Magang</div>

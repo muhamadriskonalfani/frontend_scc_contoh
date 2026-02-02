@@ -91,7 +91,7 @@
 
 @section('header')
 <div class="topbar">
-    <a href="{{ url()->previous() }}" class="back-btn">
+    <a href="{{ route('apprenticeship.my') }}" class="back-btn">
         <i data-feather="chevron-left"></i>
     </a>
     <div class="title">Update Info Magang</div>

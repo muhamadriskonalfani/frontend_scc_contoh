@@ -124,17 +124,11 @@
 
 @section('header')
 <div class="topbar">
-    <a href="{{ route('job_vacancy.index') }}" class="back-btn">
+    <a href="{{ url()->previous() }}" class="back-btn">
         <i data-feather="chevron-left"></i>
     </a>
 
     <div class="title">Detail Lowongan Kerja</div>
-
-    @if ($jobVacancy['created_by'] === session('auth.user.id'))
-        <a href="{{ route('job_vacancy.edit', $jobVacancy['id']) }}" class="action-btn">
-            <i data-feather="edit-2"></i>
-        </a>
-    @endif
 </div>
 @endsection
 

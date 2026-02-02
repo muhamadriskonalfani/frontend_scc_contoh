@@ -155,17 +155,11 @@
 
 @section('header')
 <div class="topbar">
-    <a href="{{ route('apprenticeship.index') }}" class="back-btn">
+    <a href="{{ url()->previous() }}" class="back-btn">
         <i data-feather="chevron-left"></i>
     </a>
 
     <div class="title">Detail Magang</div>
-
-    @if ($apprenticeship['created_by'] === session('auth.user.id'))
-        <a href="{{ route('apprenticeship.edit', $apprenticeship['id']) }}" class="action-btn">
-            <i data-feather="edit-2"></i>
-        </a>
-    @endif
 </div>
 @endsection
 

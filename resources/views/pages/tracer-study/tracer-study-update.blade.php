@@ -86,7 +86,7 @@
 
 @section('header')
 <div class="topbar">
-    <a href="{{ url()->previous() }}" class="back-btn">
+    <a href="{{ route('tracer_study.index') }}" class="back-btn">
         <i data-feather="chevron-left"></i>
     </a>
     <div class="title">Update Tracer Study</div>

@@ -110,7 +110,7 @@
 
 @section('header')
 <div class="topbar">
-    <a href="{{ url()->previous() }}" class="back-btn">
+    <a href="{{ route('profile.index') }}" class="back-btn">
         <i data-feather="chevron-left"></i>
     </a>
     <div class="title">Pilih Info Karir</div>

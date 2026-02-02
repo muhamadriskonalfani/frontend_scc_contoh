@@ -91,7 +91,7 @@
 
 @section('header')
 <div class="topbar">
-    <a href="{{ route('job_vacancy.index') }}" class="back-btn">
+    <a href="{{ route('job_vacancy.my') }}" class="back-btn">
         <i data-feather="chevron-left"></i>
     </a>
     <div class="title">Update Info Lowongan Kerja</div>

@@ -51,77 +51,76 @@
     }
 
     /* =========================
-       LIST ITEM
+       CARD ITEM
     ========================== */
-    .my-apprenticeship-item {
+    .apprenticeship-card {
         background: var(--white);
-        border-radius: 12px;
+        border-radius: 14px;
+        border: 1px solid var(--border);
         padding: 12px;
         display: flex;
         gap: 12px;
-        border: 1px solid var(--border);
-        transition: .2s;
-        position: relative;
+        margin-bottom: 12px;
     }
 
-    .my-apprenticeship-item:hover {
-        background: #f9fafb;
-    }
-
-    .item-image {
-        width: 64px;
-        height: 64px;
-        border-radius: 10px;
+    /* IMAGE */
+    .card-image {
+        width: 72px;
+        height: 72px;
+        border-radius: 12px;
         object-fit: cover;
         background: #eee;
         flex-shrink: 0;
     }
 
-    .item-body {
+    /* BODY */
+    .card-body {
         flex: 1;
         min-width: 0;
+        display: flex;
+        flex-direction: column;
     }
 
-    .item-title {
+    .card-title {
         font-size: 14px;
         font-weight: 600;
         color: var(--text-dark);
-        line-height: 1.3;
         margin-bottom: 2px;
     }
 
-    .item-company {
+    .card-subtitle {
         font-size: 12px;
-        color: var(--text-muted);
+        color: var(--text-dark);
         margin-bottom: 6px;
     }
 
-    .item-meta {
+    .card-text {
         font-size: 11px;
         color: var(--text-muted);
         display: flex;
         align-items: center;
         gap: 6px;
-        margin-bottom: 4px;
-    }
-
-    .item-meta i {
-        width: 12px;
-        height: 12px;
     }
 
     /* =========================
-       STATUS BADGE
+       CARD FOOTER
     ========================== */
+    .card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px dashed var(--border);
+    }
+
+    /* STATUS */
     .status-badge {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 10px;
-        padding: 3px 8px;
-        border-radius: 20px;
+        font-size: 11px;
+        padding: 4px 10px;
+        border-radius: 999px;
         font-weight: 600;
-        text-transform: uppercase;
+        text-transform: capitalize;
         color: #fff;
     }
 
@@ -129,12 +128,22 @@
     .status-approved { background: #28a745; }
     .status-rejected { background: #dc3545; }
     .status-ended { background: #6c757d; }
+
+    /* ACTIONS */
+    .card-actions {
+        display: flex;
+        gap: 14px;
+    }
+
+    .card-actions a {
+        color: var(--text-dark);
+    }
 </style>
 @endsection
 
 @section('header')
 <div class="topbar">
-    <a href="{{ url()->previous() }}" class="back-btn">
+    <a href="{{ route('profile.career_info') }}" class="back-btn">
         <i data-feather="chevron-left"></i>
     </a>
 
@@ -149,58 +158,63 @@
 @section('content')
 <div class="content-offset">
 
-    <div class="d-flex flex-column gap-2">
+    @forelse ($apprenticeships as $item)
+        <div class="apprenticeship-card">
 
-        @forelse ($apprenticeships as $item)
-            <a href="{{ route('apprenticeship.show', $item['id']) }}"
-               class="text-decoration-none">
-
-                <div class="my-apprenticeship-item">
-
-                    {{-- STATUS --}}
-                    <div class="status-badge status-{{ $item['status'] }}">
-                        {{ $item['status'] }}
-                    </div>
-
-                    {{-- IMAGE --}}
-                    @if (!empty($item['image']))
-                        <img src="{{ $item['image'] }}" class="item-image">
-                    @else
-                        <div class="item-image d-flex align-items-center justify-content-center text-muted">
-                            <i data-feather="image"></i>
-                        </div>
-                    @endif
-
-                    {{-- BODY --}}
-                    <div class="item-body">
-                        <div class="item-title">
-                            {{ $item['title'] }}
-                        </div>
-
-                        <div class="item-company">
-                            {{ $item['company_name'] }}
-                        </div>
-
-                        <div class="item-meta">
-                            <i data-feather="map-pin" style="width: 15px; height: 15px;"></i>
-                            {{ $item['location'] }}
-                        </div>
-
-                        <div class="item-meta">
-                            <i data-feather="clock" style="width: 15px; height: 15px;"></i>
-                            Dibuat {{ \Carbon\Carbon::parse($item['created_at'])->translatedFormat('d M Y') }}
-                        </div>
-                    </div>
-
+            {{-- IMAGE --}}
+            @if (!empty($item['image']))
+                <img src="{{ $item['image'] }}" class="card-image">
+            @else
+                <div class="card-image d-flex align-items-center justify-content-center text-muted">
+                    <i data-feather="image"></i>
                 </div>
-            </a>
-        @empty
-            <div class="text-center text-muted mt-4">
-                Anda belum memiliki data magang.
-            </div>
-        @endforelse
+            @endif
 
-    </div>
+            {{-- BODY --}}
+            <div class="card-body">
+
+                <div class="card-title">
+                    {{ $item['title'] }}
+                </div>
+
+                <div class="card-subtitle">
+                    {{ $item['company_name'] }}
+                </div>
+
+                <div class="card-text">
+                    <i data-feather="map-pin" style="width: 15px;"></i>
+                    {{ $item['location'] }}
+                </div>
+
+                <div class="card-text">
+                    <i data-feather="clock" style="width: 15px;"></i>
+                    Dibuat {{ \Carbon\Carbon::parse($item['created_at'])->translatedFormat('d M Y') }}
+                </div>
+
+                {{-- FOOTER --}}
+                <div class="card-footer">
+                    <span class="status-badge status-{{ $item['status'] }}">
+                        {{ $item['status'] }}
+                    </span>
+
+                    <div class="card-actions">
+                        <a href="{{ route('apprenticeship.show', $item['id']) }}" title="Detail">
+                            <i data-feather="eye" style="width: 20px;"></i>
+                        </a>
+
+                        <a href="{{ route('apprenticeship.edit', $item['id']) }}" title="Edit">
+                            <i data-feather="edit-2" style="width: 20px;"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    @empty
+        <div class="text-center text-muted mt-4">
+            Anda belum memiliki data magang.
+        </div>
+    @endforelse
 
 </div>
 @endsection
